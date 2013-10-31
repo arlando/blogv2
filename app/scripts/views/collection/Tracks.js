@@ -18,16 +18,44 @@ function( Backbone, TrackView ) {
     	/* ui selector cache */
     	ui: {},
 
-    	onShow: function () {
-    		this.length;
-    		console.log('ok');
-    	},
+    	//could use the app request here
+    	onShow: function() {},
 
 		/* Ui events hash */
-		events: {},
+		events: {
+			'click li': 'changeCurrentTrack'
+		},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {},
+
+		findPlayingTrack: function() {
+			var currentTrack = this.getPlaying();
+			currentTrack ? currentTrack.togglePlaying() : '';
+		},
+
+		getPlaying: function() {
+			return this.collection.find( function(track) {
+				return track.isPlaying();
+			});
+		},
+
+		changeCurrentTrack: function(e) {
+			var track = this.collection.get(e.currentTarget.getAttribute('data-track-id'))
+			e.preventDefault();
+			e.stopPropagation();
+			//if the current track was not clicked again
+			if (!track.isPlaying()) {
+				//find the current playing track in the collection ... remove the state
+				this.findPlayingTrack();
+
+				//add the new state
+				track.togglePlaying();
+				
+				//tell the app to exec
+				Backbone.trigger('update-spotify-player');
+			}
+		}
 	});
 
 });

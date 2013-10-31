@@ -11,7 +11,8 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
 
 		initialize: function() {
 			console.log("initialize a Spotifyplayer ItemView");
-			debugger;
+			Backbone.on('update-spotify-player', this.setURI, this);
+
 		},
         template: SpotifyplayerTmpl,
 
@@ -19,16 +20,23 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
     	ui: {},
 
     	//sets a spotify uri and re-renders a view
-    	setURI: function () {
+    	setURI: function(model) {
+    		this.model = model;
     		this.render();
-    		return this; ///2 chains
     	},
 
 		/* Ui events hash */
 		events: {},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {
+			//bind this function so we know when it rendere
+			this.$el.find.('#spotify-player-iframe').load(function() {
+				this.loaded();
+			});
+		}
+
+
 	});
 
 });

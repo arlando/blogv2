@@ -11,6 +11,7 @@ function( Backbone, TrackTmpl, Tracks ) {
 
 		initialize: function() {
 			console.log("initialize a Track ItemView");
+			this.model.on('change:playing', this.render);
 		},
 		
     	template: TrackTmpl,
@@ -25,7 +26,21 @@ function( Backbone, TrackTmpl, Tracks ) {
 		events: {},
 
 		/* on render callback */
-		onRender: function() {}
-	});
+		onBeforeRender: function() {
+			this.$el.attr('data-track-id', this.model.cid) //should only set this once
+			if (this.model.get('playing')) {
+				this.addPlaying();
+			} else {
+				this.removePlaying();
+			}
+		},
 
+		addPlaying: function() {
+			this.$el.addClass('currently-playing');
+		},
+
+		removePlaying: function() {
+			this.$el.removeClass('currently-playing');
+		} 
+	});
 });
