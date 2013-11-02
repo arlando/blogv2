@@ -14,8 +14,6 @@ var mountFolder = function (connect, dir) {
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    // show elapsed time at the end
-    require('time-grunt')(grunt);
 
     // configurable paths
     var yeomanConfig = {
@@ -117,8 +115,7 @@ module.exports = function (grunt) {
         // linting
         jshint: {
             options: {
-                jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
+                jshintrc: '.jshintrc'
             },
             all: [
                 'Gruntfile.js',
