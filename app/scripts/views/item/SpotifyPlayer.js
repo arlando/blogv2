@@ -16,9 +16,6 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
 		},
         template: SpotifyplayerTmpl,
 
-    	/* ui selector cache */
-    	ui: {},
-
     	//sets a spotify uri and re-renders a view
     	setURI: function(model) {
     		this.model = model;
@@ -28,15 +25,18 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
 		/* Ui events hash */
 		events: {},
 
+		loaded: function() {
+			console.log('spotify player loaded something');
+		},
+
 		/* on render callback */
 		onRender: function() {
+			var self = this;
 			//bind this function so we know when it rendere
-			this.$el.find.('#spotify-player-iframe').load(function() {
-				this.loaded();
+			//console.log(this.$el.find('#spotify-player-iframe'));
+			this.$el.find('#spotify-player-iframe').load( function() {
+				self.loaded();
 			});
 		}
-
-
 	});
-
 });
