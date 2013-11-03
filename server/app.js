@@ -17,17 +17,78 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
-	/* test schema */
-    var testSchema = new mongoose.Schema({
-        test: String
+	//Tests is a string is empty
+	function isEmptyString (string) {
+		return string.length;
+	}
+
+	function lower (string) {
+		return string.toLowerCase();
+	}
+
+	//Tag a brief tag for a post
+	var TagSchema = new mongoose.Schema({
+		name: { type: String, 
+			set: lower,
+			trim: true , 
+			validate: [isEmptyString, 'tag must have a name']
+		}
+	});
+
+	//Post input a post can have multiple tags
+    var PostSchema = new mongoose.Schema({
+        title: { type: String, 
+        	validate: [isEmptyString, 'post title is required']
+        },
+        tags: [Tag],
+        content: { type: String, trim: true,
+        	validate: [isEmptyString, 'post must have content']
+     	},
+        meta: {
+        	created: { type: Date, default: Date.now },
+        	likes: { type: Number, default: 0 }
+        }
     });
 
-    var Test = mongoose.model( 'test', testSchema );
+    //Consider finding these via the tag ids but it turn into a O(n^2) situation
+    PostSchema.statics.findSimilarPosts = function (cb) {
+    	return this.model('Post').where('tags').in(this.tags, cb);
+    };
 
-    /* set Baucis */
-    baucis.rest({
-        singular: 'test'
+    PostSchema.pre('save', function (next) {
+    	console.log('a post was saved to mongo: %s', this.get('title'));
+    	next();
     });
+
+
+    //define models
+    var Tag = mongoose.model( 'tag', TagSchema );
+    var Post = mongoose.model( 'post', 	PostSchema );
+    
+    //dummy data
+    var samplePosts = ['test1', 'test2', 'test3'];
+    var posts = samplePosts.map(function (post) { 
+    		return new Post({ 
+    			title: post,
+    			content: '<h3>test</h3>',
+    			tags: [{name: 'nodejs'}, {name: 'awesome'}]
+    		});
+    	});
+
+    //clear of old posts 
+    mongoose.model('post').remove(function (err) {
+    	if (err) throw err;
+    });
+
+    //put new posts in
+	mongoose.model('post').create(posts, function (err) {
+		if (err) throw err;
+
+		    /* set Baucis */
+		    baucis.rest({
+		    	singular: 'post'
+		    });
+	});
 
 	var app = express();
 
@@ -38,6 +99,7 @@ db.once('open', function callback () {
 	    app.set('views', __dirname + '../app/scripts/views');
 	});
 
+	app.use(express.urlencoded());
     app.use('/api/v1', baucis());
 
 	// simple log
@@ -49,7 +111,6 @@ db.once('open', function callback () {
 	// mount static
 	app.use(express.static( path.join( __dirname, '../app') ));
 	app.use(express.static( path.join( __dirname, '../.tmp') ));
-
 
 	// route index.html
 	app.get('/', function(req, res){
