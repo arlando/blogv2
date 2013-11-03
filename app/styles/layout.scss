@@ -1,0 +1,10 @@
+@import 'compass/utilities/general/float';
+
+.layout-left {
+    width: 250px;
+    @include float-left;
+}
+
+.layout-main {
+    @include float-left;
+}

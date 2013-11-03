@@ -66,7 +66,8 @@ db.once('open', function callback () {
     var Post = mongoose.model( 'post', 	PostSchema );
     
     //dummy data
-    var samplePosts = ['test1', 'test2', 'test3'];
+    var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
+        'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
     var posts = samplePosts.map(function (post) { 
     		return new Post({ 
     			title: post,

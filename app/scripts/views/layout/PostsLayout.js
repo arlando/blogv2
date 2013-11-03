@@ -1,23 +1,23 @@
 define([
 	'backbone',
-	'hbs!tmpl/layout/SpotifyLayout_tmpl'
+	'hbs!tmpl/layout/PostsLayout_tmpl'
 ],
-function( Backbone, SpotifylayoutTmpl ) {
+function( Backbone, PostslayoutTmpl  ) {
     'use strict';
 
 	/* Return a Layout class definition */
 	return Backbone.Marionette.Layout.extend({
+
 		initialize: function() {
-			console.log("initialize a Spotifylayout Layout");
+			console.log("initialize a Postslayout Layout");
 		},
 		
-    	template: SpotifylayoutTmpl,
+    	template: PostslayoutTmpl,
 
     	/* Layout sub regions */
     	regions: {
-    		tracks: '.spotify-tracks',
-    		player: '.spotify-player'
-    	},
+            posts: '.layout-posts'
+        },
 
     	/* ui selector cache */
     	ui: {},

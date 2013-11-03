@@ -7,7 +7,7 @@ require([
 	'views/layout/SpotifyLayout'
 ],
 function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
-	return App.module("spotify", function () {
+	return App.module("spotify", function() {
 		
 		var spotifyLayout = new SpotifyLayout(),
 			//bootstrappin' jack talkin
@@ -27,7 +27,7 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
 				);
 
 		//Do all this shit when show is called on the layout
-		spotifyLayout.on("show", function () {
+		spotifyLayout.on("show", function() {
 			spotifyLayout.tracks.show(tracksView);
 			spotifyLayout.player.show(player);
 		});
@@ -41,11 +41,11 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
 		});
 
 		//wreqr for global kommunicationz between views
-		Backbone.on('update-spotify-player', function (model) {
+		Backbone.on('update-spotify-player', function(model) {
 			player.setURI(tracksView.getPlaying());
 		})
 
-		App.addInitializer( function () {
+		App.addInitializer( function() {
 			App.spotify.show(spotifyLayout);
 		});
 	});
