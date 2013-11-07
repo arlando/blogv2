@@ -86,10 +86,11 @@ db.once('open', function callback () {
 		if (err) throw err;
 
 		    /* set Baucis */
-		    baucis.rest({
+		    var controller = baucis.rest({
 		    	singular: 'post'
-		    });
+  		    });
 	});
+    
 
 	var app = express();
 

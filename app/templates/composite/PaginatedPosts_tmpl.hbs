@@ -1,0 +1,19 @@
+<div class="posts"></div>
+<div class="posts-pagination">
+fake pagination
+{{#if showPagination}}
+    {{#if prev}}
+        <a href="#" class="posts-pagination-previous">previous</a>
+    {{else}}
+        <span>previous</span>
+    {{/if}}
+    <span class="posts-pagination-range">
+        {{range.[0]}} ... {{range.[1]}} of {{total}}
+    </span>
+    {{#if next}}
+        <a class="posts-pagination-next">next</a>
+    {{else}}
+        <span>next</span>
+    {{/if}}
+{{/if}}
+</div>

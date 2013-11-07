@@ -16,7 +16,7 @@ function( Backbone, PostslayoutTmpl  ) {
 
     	/* Layout sub regions */
     	regions: {
-            posts: '.layout-posts'
+            posts: '.layout-posts',
         },
 
     	/* ui selector cache */

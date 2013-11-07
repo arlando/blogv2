@@ -2,35 +2,36 @@ require([
 	'backbone',
 	'application',
     'collections/PostsCollection',
-    'views/collection/PostsCollectionView',
+    'views/composite/PaginatedPosts',
     'views/layout/PostsLayout'
 ],
-function( Backbone, App, Posts, PostsCollectionView, PostsLayout ) {
+function( Backbone, App, Posts, PostsPaginationView,  PostsLayout ) {
 	return App.module("posts", function() {
 
-        var postsLayout = new PostsLayout(),
-            posts = new Posts();
 
-        //TODO sort by most recent
-        posts.baucis({
-            skip: 4,
-            limit: 2,
-        });
 
-        postsView = new PostsCollectionView({ collection: posts });
-
-        postsLayout.on("show", function() {
-            postsLayout.posts.show(postsView);
-        });
-
-        postsLayout.render();
+        //postsLayout.on("show", function() {
+         //   postsLayout.posts.show(postsView);
+        //});
 
         App.addRegions({
             posts: '#blog'
         });
 
         App.addInitializer( function() {
-            App.posts.show(postsLayout);
+            var //postsLayout = new PostsLayout(),
+                posts = new Posts(),
+                postsView,
+                self = this;
+
+            var promise = posts.baucis();
+            promise.done(function(){
+                self.postsView = new PostsPaginationView({collection: posts});
+                console.log(self.postsView.el);
+                App.posts.show(self.postsView);
+            });
+
+
         });
 	});
 });

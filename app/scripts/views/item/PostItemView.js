@@ -8,13 +8,12 @@ function( Backbone, PostitemviewTmpl  ) {
 	/* Return a ItemView class definition */
 	return Backbone.Marionette.ItemView.extend({
 
-		initialize: function() {
-			console.log("initialize a Postitemview ItemView");
-		},
+		initialize: function() {},
 		
     	template: PostitemviewTmpl,
         tagName: 'div',
         className: 'post',
+        renderCount: 0,
         
 
     	/* ui selector cache */
@@ -24,7 +23,31 @@ function( Backbone, PostitemviewTmpl  ) {
 		events: {},
 
 		/* on render callback */
-		onRender: function() {}
+		onRender: function() {},
+        render: function () {
+            //render if we have not gone past our paginated limit
+            if (this.renderCount < this.rendersAllowed) {
+                this.isClosed = false;
+
+                this.triggerMethod("before:render", this);
+                this.triggerMethod("item:before:render", this);
+
+                var data = this.serializeData();
+                data = this.mixinTemplateHelpers(data);
+
+                var template = this.getTemplate();
+                var html = Backbone.Marionette.Renderer.render(template, data);
+
+                this.$el.html(html);
+                this.bindUIElements();
+
+                this.triggerMethod("render", this);
+                this.triggerMethod("item:rendered", this);
+
+                return this;
+            }
+        },
+
 	});
 
 });
