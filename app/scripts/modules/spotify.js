@@ -17,14 +17,14 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
 					{id:3, title: 'Thing3', spotifyuri: '0AMMjcRxVNOnQjmdXNgF2e', artist:'Thing3' },
 					{id:4, title: 'Thing4', spotifyuri: '5WACLmxePHgd45hptug9n1', artist:'Thing4' },
 					{id:5, title: 'Thing5', spotifyuri: '2OCHjMefU4lUWLNz8sKw48', artist:'Thing5' }
-				]);
+			]);
 			tracksView = new TracksView( 
 					{collection : tracksCollection}
-				),
+			),
 			player = new SpotifyPlayer(
 					//get the first track and use it as a based
 					{model : tracksCollection.at(0)}
-				);
+			);
 
 		//Do all this shit when show is called on the layout
 		spotifyLayout.on("show", function() {

@@ -21,11 +21,5 @@ function( Backbone ) {
 
             return this.fetch(fetchOptions);
         },
-		initialize: function() {
-			console.log("initialize a Postmodel model");
-		},
-
-		defaults: {},
-
     });
 });

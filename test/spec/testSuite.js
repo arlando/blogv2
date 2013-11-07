@@ -5,10 +5,12 @@ define(function() {
 	return {
 		specs: ['spec/collections/PostsCollection.js',
 		'spec/collections/Tracks.js',
+		'spec/controllers/appController.js',
 		'spec/exampleTest.js',
 		'spec/models/PostModel.js',
 		'spec/models/Track.js',
 		'spec/routers/BlogRouter.js',
+		'spec/routers/approuter.js',
 		'spec/views/collection/PostsCollectionView.js',
 		'spec/views/collection/Tracks.js',
 		'spec/views/composite/PaginatedPosts.js',

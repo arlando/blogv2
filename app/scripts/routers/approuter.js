@@ -6,6 +6,6 @@ function(Backbone){
 
 	return Backbone.Router.extend({
 		/* Backbone routes hash */
-		routes: {}
+
 	});
 });

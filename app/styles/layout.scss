@@ -1,10 +1,17 @@
 @import 'compass/utilities/general/float';
+@import 'compass/utilities/general/clearfix';
 
 .layout-left {
     width: 250px;
-    @include float-left;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    @include clearfix;
 }
 
 .layout-main {
-    @include float-left;
+    position: absolute;
+    left: 250px;
+    @include clearfix;
 }

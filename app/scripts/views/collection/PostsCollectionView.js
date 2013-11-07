@@ -14,15 +14,5 @@ function( Backbone, PostView ) {
 		itemView: PostView,
 		tagName: 'div',
 		className: 'posts',
-		currentRender: 0,
-		perPage: 3,
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
-
 	});
-
 });
