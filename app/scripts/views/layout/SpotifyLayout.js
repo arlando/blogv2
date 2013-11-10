@@ -18,15 +18,5 @@ function( Backbone, SpotifylayoutTmpl ) {
     		tracks: '.spotify-tracks',
     		player: '.spotify-player'
     	},
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
-
-		/* on render callback */
-		onRender: function() {}
 	});
-
 });

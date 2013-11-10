@@ -12,18 +12,14 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
 		initialize: function() {
 			console.log("initialize a Spotifyplayer ItemView");
 			Backbone.on('update-spotify-player', this.setURI, this);
-
 		},
         template: SpotifyplayerTmpl,
 
-    	//sets a spotify uri and re-renders a view
+    	//sets a spotify uri and re-renders the attached view
     	setURI: function(model) {
     		this.model = model;
     		this.render();
     	},
-
-		/* Ui events hash */
-		events: {},
 
 		loaded: function() {
 			console.log('spotify player loaded something');

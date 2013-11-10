@@ -20,15 +20,7 @@ function( Backbone, PostspaginatedTmpl  ) {
 		events: {
             'click .posts-pagination-next': 'nextPage',
             'click .posts-pagination-previous': 'previousPage'
-        },
-        nextPage: function() {
-            //this.collecion.nextPage();
-            return false;
-        },
-        previousPage: function() {
-            //this.collection.previousPage();
-            return false;
-        },
+        }
 	});
 
 });

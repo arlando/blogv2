@@ -12,6 +12,15 @@
 
 .layout-main {
     position: absolute;
-    left: 250px;
+    float: left;
+    margin-left: 250px;
     @include clearfix;
+}
+
+.layout {
+    color: white;
+}
+
+body {
+    background-color: #000;
 }
