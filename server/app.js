@@ -9,6 +9,8 @@ var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
 
+//socketio
+
 
 // start mongoose
 mongoose.connect('mongodb://localhost/post_database');

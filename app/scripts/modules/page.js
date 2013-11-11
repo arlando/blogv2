@@ -1,18 +1,16 @@
 require([
     'backbone',
     'application',
-    'models/pageModel',
-    'views/item/pageView'
+    'views/item/AboutView'
 ],
-function( Backbone, App, PageModel, PageView ) {
+function( Backbone, App, AboutView ) {
     return App.module("page", function() {
         App.addRegions({
             page: '#main-content'
         });
 
         App.vent.on('show-about', function() {
-            var about = new PageModel({content:'<h1>Hello</h1>'}),
-                aboutPage = new PageView({model:about}); 
+            var aboutPage = new AboutView(); 
             App.page.show(aboutPage);
         });
     });
