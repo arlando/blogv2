@@ -121,9 +121,18 @@ db.once('open', function callback () {
       res.sendfile( path.join( __dirname, '../app/index.html' ) );
     });
 
-    // start server
-    http.createServer(app).listen(app.get('port'), function(){
+    //start server
+    var server = http.createServer(app).listen(app.get('port'), function(){
         console.log('Express App started!');
+    });
+
+    //socket.io
+    var io = socketIO.listen(server);
+    io.sockets.on('connection', function(socket) {
+        socket.emit('message', { message: 'leave a quote'});
+        socket.on('send', function(data) {
+            console.log(data);
+        });
     });
 });
 

@@ -12,17 +12,7 @@ function( Backbone, AboutviewTmpl  ) {
 			console.log("initialize a Aboutview ItemView");
 		},
 		
-    	template: AboutviewTmpl,
-        
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
-
-		/* on render callback */
-		onRender: function() {}
+    	template: AboutviewTmpl
 	});
 
 });

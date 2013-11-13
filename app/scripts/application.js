@@ -1,12 +1,13 @@
 define([
 	'backbone',
 	'communicator',
+	'modules/pagesocket',
 	'modules/spotify',
 	'modules/posts',
 	'modules/page'
 ],
 
-function( Backbone, Communicator, SpotifyModule, PostsModule, PageModule ) {
+function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModule ) {
     'use strict';
 
 	var App = new Backbone.Marionette.Application(),
