@@ -22,8 +22,7 @@ function( Backbone ) {
 		},
 
 		togglePlaying: function() {
-			this.set('playing',!this.get('playing'));
+			this.set('playing', !this.get('playing'));
 		}
-
     });
 });

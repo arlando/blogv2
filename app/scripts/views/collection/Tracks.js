@@ -14,20 +14,10 @@ function( Backbone, TrackView ) {
 		itemView: TrackView,
     	tagName: 'ul',
     	className: 'spotify-tracks-list',
-
-    	/* ui selector cache */
-    	ui: {},
-
-    	//could use the app request here
-    	onShow: function() {},
-
 		/* Ui events hash */
 		events: {
 			'click li': 'changeCurrentTrack'
 		},
-
-		/* on render callback */
-		onRender: function() {},
 
 		findPlayingTrack: function() {
 			var currentTrack = this.getPlaying();
@@ -39,7 +29,7 @@ function( Backbone, TrackView ) {
 				return track.isPlaying();
 			});
 		},
-
+		
 		changeCurrentTrack: function(e) {
 			var track = this.collection.get(e.currentTarget.getAttribute('data-track-id'))
 			e.preventDefault();
@@ -52,7 +42,7 @@ function( Backbone, TrackView ) {
 				//add the new state
 				track.togglePlaying();
 				
-				//tell the app to exec
+				//tell Backbone to update the view
 				Backbone.trigger('update-spotify-player');
 			}
 		}

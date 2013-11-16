@@ -15,18 +15,8 @@ function( Backbone, SpotifylayoutTmpl ) {
 
     	/* Layout sub regions */
     	regions: {
-    		tracks: ".spotify-tracks",
-    		player: ".spotify-player"
-    	},
-
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
-
-		/* on render callback */
-		onRender: function() {}
+    		tracks: '.spotify-tracks',
+    		player: '.spotify-player'
+    	}
 	});
-
 });

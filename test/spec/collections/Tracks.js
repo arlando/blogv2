@@ -1,25 +1,25 @@
 (function() {
-	'use strict';
+  'use strict';
 
-	var root = this;
+  var root = this;
 
-	root.define([
-		'collections/Tracks'
-		],
-		function( Tracks ) {
+  root.define([
+    'collections/Tracks'
+    ],
+    function( Tracks ) {
 
-			describe('Tracks Collection', function () {
+      describe('Tracks Collection', function () {
 
-				it('should be an instance of Tracks Collection', function () {
-					var Tracks = new Tracks();
-					expect( Tracks ).to.be.an.instanceof( Tracks );
-				});
+        it('should be an instance of Tracks Collection', function () {
+          var Tracks = new Tracks();
+          expect( Tracks ).to.be.an.instanceof( Tracks );
+        });
 
-				it('should have more test written', function(){
-					expect( false ).to.be.ok;
-				});
-			});
+        it('should have more test written', function(){
+          expect( false ).to.be.ok;
+        });
+      });
 
-		});
+    });
 
 }).call( this );

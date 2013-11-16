@@ -1,0 +1,36 @@
+@import 'compass/utilities/general/float';
+@import 'compass/utilities/general/clearfix';
+
+.layout-left {
+    width: 250px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    @include clearfix;
+}
+
+.layout-main {
+    position: absolute;
+    float: left;
+    margin-left: 250px;
+    @include clearfix;
+}
+
+.layout {
+    color: white;
+}
+
+.layout-current-post {
+    float: left;
+    @include clearfix;
+}
+
+.layout-posts {
+    float: left;
+    @include clearfix;
+}
+
+body {
+    background-color: #000;
+}

@@ -19,12 +19,6 @@ function( Backbone, TrackTmpl, Tracks ) {
         tagName: 'li',
         className: 'spotify-track', 
 
-    	/* ui selector cache */
-    	ui: {},
-
-		/* Ui events hash */
-		events: {},
-
 		/* on render callback */
 		onBeforeRender: function() {
 			this.$el.attr('data-track-id', this.model.cid) //should only set this once

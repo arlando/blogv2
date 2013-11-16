@@ -10,7 +10,7 @@
 
         <title></title>
 
-        <meta name="description" content="">
+        <meta name="description" content="Arlando Battle">
         <meta name="viewport" content="width=device-width">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -25,7 +25,17 @@
     </head>
 
     <body>
-
+        <div id="app">
+            <div class="layout">
+                <div class="layout-left">
+                    <div id="layout-navigation"></div>
+                    <div id="spotify"></div>
+                </div>
+                <div class="layout-main">
+                    <div id="main-content"></div>
+                </div>
+            </div>
+        </div>
         <!-- build:js scripts/main.js -->
         <script data-main="scripts/init" src="bower_components/requirejs/require.js"></script>
         <!-- endbuild -->
