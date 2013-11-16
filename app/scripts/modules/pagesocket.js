@@ -1,8 +1,7 @@
 require([
-    'socketHook',
-    'underscore'
+    'socketHook'
 ],
-function( socket, _ ) {
+function( socket ) {
     socket.on('message', function(data) {
         console.log(data);
     });
