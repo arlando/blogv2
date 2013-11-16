@@ -2,14 +2,15 @@ require([
     'backbone',
     'application',
     'collections/LinksCollection',
-    'views/item/NavigationView',
+    'views/item/NavigationView'
 ],
 function( Backbone, App, Links, NavigationView) {
     return App.module("navigation", function() {
         var links = new Links([
-                {name:'About', klass:'about'},
-                {name:'Artwork', klass:'artwork'},
-                {name:'Blog'. klass:'blog'}
+                {name:'Home', klass: 'home' },
+                {name:'About', klass: 'about' },
+                {name:'Artwork', klass: 'artwork' },
+                {name:'Blog', klass: 'blog' }
             ]),
             navigationView = new NavigationView({collection: links});
 

@@ -16,6 +16,7 @@ define(function() {
 		'spec/views/collection/Tracks.js',
 		'spec/views/composite/PaginatedPosts.js',
 		'spec/views/item/AboutView.js',
+		'spec/views/item/HomeView.js',
 		'spec/views/item/PostItemView.js',
 		'spec/views/item/PostsPaginated.js',
 		'spec/views/item/SpotifyPlayer.js',

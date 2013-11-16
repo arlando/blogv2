@@ -13,18 +13,17 @@ function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModu
     var App = new Backbone.Marionette.Application(),
         MyRouter = Backbone.Marionette.AppRouter.extend({
             appRoutes: {
+                "": "home",
                 "about": "about",
                 "artwork": "artwork",
                 "blog": "blog"
             }
         });
 
-    // PostsModule.on('showposts', function(options) {
-
-    // });
-
     var Controller = {
-        //shows the about page
+        home: function() {
+            App.vent.trigger('show-home');
+        },
         about: function() {
             App.vent.trigger('show-about');
         },
@@ -36,7 +35,6 @@ function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModu
         }
     };
 
-    /* Add initializers here */
     App.addInitializer( function() {
         new MyRouter({
             controller: Controller
