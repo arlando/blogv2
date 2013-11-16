@@ -12,12 +12,12 @@ function( Backbone, App, AboutView, HomeView ) {
             page: '#main-content'
         });
 
-        App.vent.on('show-about', function() {
+        App.vent.on('show-page-about', function() {
             var aboutPage = new AboutView(); 
             App.page.show(aboutPage);
         });
 
-        App.vent.on('show-home', function() {
+        App.vent.on('show-page-home', function() {
             var homePage = new HomeView();
             App.page.show(homePage);
         });

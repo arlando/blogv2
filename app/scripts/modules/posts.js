@@ -20,7 +20,7 @@ function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) 
         });
         
         //whenever user clicks on the show blog route trigger this vent
-        App.vent.on('show-blog', function() {
+        App.vent.on('show-posts-blog', function() {
             //if we have already fetched the posts and rendered the view before... no point in doing it again
             if ( posts.length > 0 && postsView ) {
                 //shows the the view again

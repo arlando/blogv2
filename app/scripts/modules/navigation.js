@@ -1,24 +1,25 @@
 require([
     'backbone',
     'application',
-    'collections/LinksCollection',
-    'views/item/NavigationView'
+    'views/collection/NavigationView'
 ],
-function( Backbone, App, Links, NavigationView) {
+function( Backbone, App, NavigationView ) {
     return App.module("navigation", function() {
-        var links = new Links([
+        //this app manages the links on the homepage
+        var links = new Backbone.Collection([
                 {name:'Home', klass: 'home' },
                 {name:'About', klass: 'about' },
                 {name:'Artwork', klass: 'artwork' },
                 {name:'Blog', klass: 'blog' }
             ]),
-            navigationView = new NavigationView({collection: links});
+            navigationView;
 
         App.addRegions({
-            navigation: '#navigation'
+            navigation: '#layout-navigation'
         });
 
         App.addInitializer( function() {
+            navigationView = new NavigationView({collection : links});
             App.navigation.show(navigationView);
         });
     });

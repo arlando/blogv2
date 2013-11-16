@@ -2,12 +2,13 @@ define([
     'backbone',
     'communicator',
     'modules/pagesocket',
+    'modules/navigation',
     'modules/spotify',
     'modules/posts',
     'modules/page'
 ],
 
-function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModule ) {
+function( Backbone, Communicator ) {
     'use strict';
 
     var App = new Backbone.Marionette.Application(),
@@ -21,17 +22,18 @@ function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModu
         });
 
     var Controller = {
+        //show-module-trigga
         home: function() {
-            App.vent.trigger('show-home');
+            App.vent.trigger('show-page-home');
         },
         about: function() {
-            App.vent.trigger('show-about');
+            App.vent.trigger('show-page-about');
         },
         artwork: function() {
             console.log('todo-art work');
         },
         blog: function() {
-            App.vent.trigger('show-blog');
+            App.vent.trigger('show-posts-blog');
         }
     };
 
