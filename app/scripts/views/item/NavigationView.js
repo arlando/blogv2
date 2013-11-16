@@ -7,11 +7,6 @@ function( Backbone, NavigationviewTmpl  ) {
     return Backbone.Marionette.ItemView.extend({
         tagName: 'li',
         className: 'navigation-link',
-        template: NavigationviewTmpl,
-        attributes: function() {
-            return {
-                'href' : '#keke'
-            }
-        }
+        template: NavigationviewTmpl
     });
 });

@@ -7,7 +7,7 @@ function( Backbone, App, NavigationView ) {
     return App.module("navigation", function() {
         //this app manages the links on the homepage
         var links = new Backbone.Collection([
-                {name:'Home', klass: 'home' },
+                {name:'Home', klass: '' },
                 {name:'About', klass: 'about' },
                 {name:'Artwork', klass: 'artwork' },
                 {name:'Blog', klass: 'blog' }

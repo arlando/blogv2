@@ -1,28 +1,44 @@
 define([
-	'backbone',
-	'hbs!tmpl/item/HomeView_tmpl'
+    'backbone',
+    'hbs!tmpl/item/HomeView_tmpl',
+    'socketHook'
 ],
-function( Backbone, HomeviewTmpl  ) {
+function( Backbone, HomeviewTmpl, socket ) {
     'use strict';
 
-	/* Return a ItemView class definition */
-	return Backbone.Marionette.ItemView.extend({
+    /* Return a ItemView class definition */
+    return Backbone.Marionette.ItemView.extend({
+        currentMessage: '',
+        initialize: function() {
+            //get the current message
+            socket.emit('getmessage', function(message) {
+                self.$el.val(message);
+            });
+        },
 
-		initialize: function() {
-			console.log("initialize a Homeview ItemView");
-		},
-		
-    	template: HomeviewTmpl,
-        
+        template: HomeviewTmpl,
+        tagName: 'input',
+        className: 'homeSocketMessage',
 
-    	/* ui selector cache */
-    	ui: {},
+        /* ui selector cache */
+        ui: {},
 
-		/* Ui events hash */
-		events: {},
+        /* Ui events hash */
+        events: {
+            'keypress' : 'updateHomeMessage'
+        },
 
-		/* on render callback */
-		onRender: function() {}
-	});
+        /* on render callback */
+        onRender: function() {
+            var self = this;
+            socket.on('updatemessage', function(message) {
+                debugger;
+                self.$el.val(message);
+            });
+        },
+        updateHomeMessage: function() {
+            socket.emit('sendmessage', this.$el.val());
+        }
+    });
 
 });

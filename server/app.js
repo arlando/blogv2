@@ -128,10 +128,19 @@ db.once('open', function callback () {
 
     //socket.io
     var io = socketIO.listen(server);
+    //default message for clients
+    var currentmessage = 'okok';
     io.sockets.on('connection', function(socket) {
-        socket.emit('message', { message: 'leave a quote'});
-        socket.on('send', function(data) {
-            console.log(data);
+
+        //get the current message on connect
+        socket.on('getmessage', function() {
+            socket.emit('updatemessage', currentmessage);
+        });
+
+        //when the client sends us a message
+        socket.on('sendmessage', function (message) {
+            currentmessage = message;
+            socket.broadcast.emit('updatemessage', currentmessage);
         });
     });
 });

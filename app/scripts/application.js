@@ -22,7 +22,8 @@ function( Backbone, Communicator ) {
         });
 
     var Controller = {
-        //show-module-trigga
+        //triggers take the form of:
+        //show-modulename-trigger
         home: function() {
             App.vent.trigger('show-page-home');
         },
