@@ -8,7 +8,9 @@ function( Backbone, PaginatedpostsTmpl, PostItemView  ) {
 
 	/* Return a CompositeView class definition */
 	return Backbone.Marionette.CompositeView.extend({
-    	itemView: PostItemView,
-    	template: PaginatedpostsTmpl
-	});
+    	itemView : PostItemView,
+    	template : PaginatedpostsTmpl,
+        tagName : 'ul',
+        className : 'posts-titles',
+    });
 });

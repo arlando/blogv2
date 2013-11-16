@@ -21,6 +21,16 @@
     color: white;
 }
 
+.layout-current-post {
+    float: left;
+    @include clearfix;
+}
+
+.layout-posts {
+    float: left;
+    @include clearfix;
+}
+
 body {
     background-color: #000;
 }

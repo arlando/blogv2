@@ -20,6 +20,7 @@ define(function() {
 		'spec/views/item/PostsPaginated.js',
 		'spec/views/item/SpotifyPlayer.js',
 		'spec/views/item/Track.js',
+		'spec/views/item/currentPost.js',
 		'spec/views/item/pageView.js',
 		'spec/views/layout/PostsLayout.js',
 		'spec/views/layout/SpotifyLayout.js'

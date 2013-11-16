@@ -73,7 +73,7 @@ db.once('open', function callback () {
     var posts = samplePosts.map(function (post) { 
             return new Post({ 
                 title: post,
-                content: '<h3>test</h3>',
+                content: '<h3>test</h3>'+Math.random(),
                 tags: [{name: 'nodejs'}, {name: 'awesome'}]
             });
         });

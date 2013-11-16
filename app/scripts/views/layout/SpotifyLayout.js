@@ -17,6 +17,6 @@ function( Backbone, SpotifylayoutTmpl ) {
     	regions: {
     		tracks: '.spotify-tracks',
     		player: '.spotify-player'
-    	},
+    	}
 	});
 });

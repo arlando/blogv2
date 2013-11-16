@@ -25,16 +25,13 @@ function( Backbone, Communicator, SocketIO, SpotifyModule, PostsModule, PageModu
 
 	var Controller = {
 		//shows the about page
-
 		about: function() {
-			console.log('ok');
 			App.vent.trigger('show-about');
 		},
 		artwork: function() {
-			console.log('todo');
+			console.log('todo-art work');
 		},
 		blog: function() {
-			console.log('todo');
 			App.vent.trigger('show-blog');
 		}
 	};
