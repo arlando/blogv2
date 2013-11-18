@@ -37,7 +37,7 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
 
         //spotify app region
         App.addRegions({
-            spotify : '#spotify'
+            spotify : '.layout-spotify'
         });
 
         //wreqr for communication,

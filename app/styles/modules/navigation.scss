@@ -1,0 +1,31 @@
+@import 'compass/typography/lists/bullets';
+@import 'compass/typography/links/link-colors';
+
+.navigation {
+  @include no-bullets;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation-link {
+  width: 100%;
+  font-weight: 400;
+  margin: 0 0 2px 0;
+  padding-left: 25px;
+  transition: all 0.20s ease-in;
+  //text-transform: uppercase;
+
+  a {
+    @include link-colors(#6D6D6D, #838383, #D3D3D3);
+  }
+
+  a:hover {
+    text-shadow: 0 0 1px #FFF;
+    text-decoration: none;
+  }
+}
+
+.active-nav {
+  background: #E9E9E9;
+  font-weight: 600;
+}

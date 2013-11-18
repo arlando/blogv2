@@ -1,0 +1,44 @@
+@import 'compass/typography/lists/bullets';
+
+.posts-titles {
+  @include no-bullets;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background: rgba(32, 32, 32, 0.35);
+  border-right: 1px solid #585858;
+}
+
+li.post-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 4px;
+  border-bottom: 1px solid #585858;
+  transition: all .25s ease-in;
+}
+
+li.post-title:hover {
+  background: #CA2828;
+  -webkit-transform: translateX(5px);
+  transform: translateX(5px), scaleX(1.25);
+}
+
+h5.post-title {
+
+}
+
+.post-meta {
+
+}
+
+.post-created {
+  float: left;
+}
+
+.post-likes {
+  float: right;
+}
+
+.post-content {
+
+}

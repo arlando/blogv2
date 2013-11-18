@@ -25,6 +25,7 @@ function( Backbone, Communicator ) {
         //triggers take the form of:
         //show-modulename-trigger
         home: function() {
+            console.log('babdaooms');
             App.vent.trigger('show-page-home');
         },
         about: function() {

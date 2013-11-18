@@ -1,36 +1,69 @@
 @import 'compass/utilities/general/float';
 @import 'compass/utilities/general/clearfix';
+@import 'mixins/_layout.scss';
 
 .layout-left {
-    width: 250px;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    @include clearfix;
+  width: 250px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  @include clearfix;
+  @include height;
+  background: rgb(255,255,255); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(255,255,255,1) 62%, rgba(247,247,247,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(62%,rgba(255,255,255,1)), color-stop(100%,rgba(247,247,247,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 62%,rgba(247,247,247,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(255,255,255,1) 62%,rgba(247,247,247,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(255,255,255,1) 62%,rgba(247,247,247,1) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(255,255,255,1) 62%,rgba(247,247,247,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=1 ); /* IE6-9 */
 }
 
 .layout-main {
-    position: absolute;
-    float: left;
-    margin-left: 250px;
-    @include clearfix;
+  border-left: 1px solid #DADADA;
+  position: fixed;
+  float: left;
+  width: 100%;
+  background-image: url('/images/mainbg2.gif');
+  margin-left: 250px;
+  @include clearfix;
+  @include height;
 }
 
 .layout {
-    color: white;
+  color: white;
+  @include height;
+}
+
+.layout-posts-current-post {
+  height: 100%;
 }
 
 .layout-current-post {
-    float: left;
-    @include clearfix;
+  float: left;
+  @include clearfix;
 }
 
 .layout-posts {
-    float: left;
-    @include clearfix;
+  float: left;
+  height: 100%;
+  @include clearfix;
+}
+
+.layout-navigation {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.layout-spotify {
+  padding-top: 15px;
+  border-top: 3px solid #FFF;
+}
+
+#main-content {
+  background: rgba(71, 63, 21, 0.91);
 }
 
 body {
-    background-color: #000;
+  background-color: #FFF;
 }

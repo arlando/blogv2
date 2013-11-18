@@ -1,0 +1,32 @@
+@import 'compass/typography/lists/bullets';
+@import 'compass/typography/links/link-colors';
+
+.spotify-tracks {
+  color: #6D6D6D;
+}
+
+.spotify-tracks-list {
+  @include no-bullets;
+  padding: 0;
+  margin: 0;
+}
+
+.spotify-track {
+  width: 100%;
+  transition: all 0.20s ease-in;
+  font-weight: 400;
+  margin: 0 0 2px 0;
+  padding-left: 25px;
+}
+
+.spotify-track:hover {
+  cursor: pointer;
+  text-shadow: 0 0 1px #FFF;
+  text-decoration: none;
+}
+
+.currently-playing {
+  color: #6D6D6D;
+  background: #E9E9E9;
+  font-weight: 600;
+}

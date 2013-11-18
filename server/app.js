@@ -129,7 +129,8 @@ db.once('open', function callback () {
     //socket.io
     var io = socketIO.listen(server);
     //default message for clients
-    var currentmessage = 'okok';
+    var currentmessage = 'CONFUSION =',
+        maxMessageLength = 512;
     io.sockets.on('connection', function(socket) {
 
         //get the current message on connect
@@ -139,10 +140,8 @@ db.once('open', function callback () {
 
         //when the client sends us a message
         socket.on('sendmessage', function (message) {
-            currentmessage = message;
+            currentmessage = (message.length < 512 ) ? message : currentmessage;
             socket.broadcast.emit('updatemessage', currentmessage);
         });
     });
 });
-
-
