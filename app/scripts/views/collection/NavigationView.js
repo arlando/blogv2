@@ -12,8 +12,6 @@ function( Backbone, Navigation ) {
             'click li' : 'changePage'
         },
         initialize: function() {
-            console.log('binxxg');
-           // debugger;
             this.setCurrentPage();
         },
         getCurrentPage: function() {
@@ -29,32 +27,23 @@ function( Backbone, Navigation ) {
             return current;
         },
         setCurrentPage: function() {
-           // debugger;
-           // console.log
+            //current link is the current page on load
+            //TODO fix current link in the navigation
             var currentlink = this.collection.find(function (navobj) {
                 return navobj.get('klass') === Backbone.history.fragment;
             });
-
-            if ( currentlink ) {
-                currentlink.set('active', true);
-            } else {
+            return ( currentlink ) ?
+                currentlink.set('active', true) :
                 //set home to active cause everything is haywire
                 this.collection.at(0).set('active', true);
-            }
-            return currentlink;
         },
         changePage: function(e) {
             var navLink = this.collection.get(e.currentTarget.getAttribute('data-navigation-cid'));
             var currentPage = this.getCurrentPage();
-            //debugger;
             //if the clicked link is not the currently active link was not clicked again
             if ( !navLink.get('active') ) {
                 //find the current page toggle the state
                 currentPage.set('active', false);
-                //currentPage.removeActive();
-               // debugger;
-                //TODO fix this muy bad!
-            //    debugger;
                 var isActive = navLink.get('active');
                 isActive = (isActive) ? false : true;
                 navLink.set('active', isActive);

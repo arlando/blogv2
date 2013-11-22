@@ -23,6 +23,7 @@ function( Backbone, PostslayoutTmpl  ) {
             //have to init bindings here because each time the view is closed
             //these bindings are lost, because of memory management.
             var self = this;
+            //TODO document this design pattern
             //whenever the posts is shown bind the itemview view's click post
             //event to updatePosts and call this method each time a post is clicked
             this.listenTo(this.posts, 'show', function(view) {
@@ -33,13 +34,11 @@ function( Backbone, PostslayoutTmpl  ) {
         //should update the currentpost region with the clicked
         //LI in the view in the subview
         updatePosts: function(args) {
-            //debugger;
-            console.log('here');
-            //ebugger;
             this.currentpost.currentView.model = args.model;
             this.currentpost.currentView.render();
-            //retrun args.view.$el
-            //return args.collection.get(cid);
+
+            //update the current selected post in the posts region
+            this.posts.currentView.changeCurrentPost(args.model);
         }
     });
 });

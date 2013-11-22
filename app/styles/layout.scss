@@ -40,12 +40,12 @@
 }
 
 .layout-current-post {
-  float: left;
   @include clearfix;
 }
 
 .layout-posts {
   float: left;
+  border-right: 1px solid #313131;
   height: 100%;
   @include clearfix;
 }
@@ -61,7 +61,7 @@
 }
 
 #main-content {
-  background: rgba(71, 63, 21, 0.91);
+  background: rgba(48, 48, 48, 0.91);
 }
 
 body {
