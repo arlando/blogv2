@@ -19,13 +19,9 @@ function( Backbone, HomeviewTmpl, socket ) {
         attributes: {
             'maxlength' : 512
         },
-
-        /* Ui events hash */
         events: {
-            'keypress' : 'updateHomeMessage'
+            'keyup' : 'updateHomeMessage'
         },
-
-        /* on render callback */
         onRender: function() {
             var self = this;
             socket.on('updatemessage', function(message) {

@@ -6,7 +6,16 @@
   margin: 0;
   height: 100%;
   background: rgba(32, 32, 32, 0.35);
+  -webkit-animation: bounce_titles .75s ease-in 0s 1 alternate;
+  -moz-animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
+  -o-animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
+  animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
 }
+
+@-webkit-keyframes bounce_titles { from { margin-left:-50%; } to { margin-left:0; }  }
+@-moz-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
+@-o-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
+@keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 
 li.post-title {
   font-weight: 800;
@@ -17,7 +26,6 @@ li.post-title {
 }
 
 li.post-title:hover {
-
 }
 
 .post-meta {
@@ -38,7 +46,6 @@ li.post-title:hover {
 
 .post-likes {
   float: right;
-
 }
 
 .post-content {

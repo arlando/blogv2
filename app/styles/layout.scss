@@ -48,7 +48,17 @@
   border-right: 1px solid #313131;
   height: 100%;
   @include clearfix;
+  -webkit-animation: bounce_titles 0.5s ease-in 0s 1 alternate;
+  -moz-animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
+  -o-animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
+  animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
 }
+
+@-webkit-keyframes bounce_titles { from { margin-left:-100%; } to { margin-left:0; }  }
+@-moz-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
+@-o-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
+@keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
+
 
 .layout-navigation {
   padding-bottom: 15px;
