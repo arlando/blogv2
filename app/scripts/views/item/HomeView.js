@@ -6,9 +6,9 @@ define([
 function( Backbone, HomeviewTmpl, socket ) {
     'use strict';
     return Backbone.Marionette.ItemView.extend({
-        currentMessage: '',
         initialize: function() {
             //get the current message from the socketio store
+            //set the textarea value to this message
             socket.emit('getmessage', function(message) {
                 self.$el.val(message);
             });
@@ -32,5 +32,4 @@ function( Backbone, HomeviewTmpl, socket ) {
             socket.emit('sendmessage', this.$el.val());
         }
     });
-
 });

@@ -9,9 +9,6 @@ var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
 
-//socketio
-
-
 // start mongoose
 mongoose.connect('mongodb://localhost/post_database');
 var db = mongoose.connection;
@@ -129,7 +126,7 @@ db.once('open', function callback () {
     //socket.io
     var io = socketIO.listen(server);
     //default message for clients
-    var currentmessage = 'CONFUSION =',
+    var currentmessage = 'leave a message...',
         maxMessageLength = 512;
     io.sockets.on('connection', function(socket) {
 
