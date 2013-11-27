@@ -1,3 +1,4 @@
+//Loads the socket to the host
 define([
     'socketio'
 ],

@@ -1,4 +1,4 @@
-require([
+define([
     'backbone',
     'application',
     'views/item/AboutView',
@@ -7,7 +7,7 @@ require([
 function( Backbone, App, AboutView, HomeView ) {
     //this module holds individual pages and swaps out
     //the 'page' on the main-content layout
-    return App.module("page", function() {
+    return App.module('page', function() {
         App.addRegions({
             page: '#main-content'
         });
@@ -18,6 +18,7 @@ function( Backbone, App, AboutView, HomeView ) {
         });
 
         App.vent.on('show-page-home', function() {
+            console.log('hometriggered');
             var homePage = new HomeView();
             App.page.show(homePage);
         });

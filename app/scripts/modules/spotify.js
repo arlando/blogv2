@@ -1,4 +1,4 @@
-require([
+define([
     'backbone',
     'application',
     'collections/Tracks',

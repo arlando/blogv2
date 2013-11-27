@@ -1,4 +1,5 @@
-require([
+define([
+    //socketHook holds the socketio
     'socketHook'
 ],
 function( socket ) {

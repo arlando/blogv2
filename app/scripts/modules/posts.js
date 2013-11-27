@@ -1,4 +1,4 @@
-require([
+define([
     'backbone',
     'application',
     'collections/PostsCollection',
@@ -8,6 +8,7 @@ require([
 ],
 function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) {
     return App.module("posts", function() {
+        console.log('starting post');
         var posts = new Posts(),
             postsView,
             postsLayout = new PostsLayout(),
@@ -41,11 +42,6 @@ function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) 
         App.vent.on('show-post', function(cid) {
             currentPost = new CurrentPost({model: posts.get(cid)});
             postsLayout.currentpost.show(currentPost);
-        });
-
-        //highlights a current post tab
-        App.vent.on('highlight-current-post-tab', function(cid) {
-
         });
 
         App.addRegions({
