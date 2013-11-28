@@ -11,16 +11,12 @@ function( Backbone, CurrentpostTmpl  ) {
              this.listenTo(this.model, 'change', this.render);
         },
         template: CurrentpostTmpl,
-
-
-        /* ui selector cache */
-        ui: {},
-
-        /* Ui events hash */
-        events: {},
-
-        /* on render callback */
-        onRender: function() {}
+        onBeforeRender: function() {
+            if (!this.model.has('created')) {
+                var created = new Date(this.model.get('meta').created);
+                this.model.set('created', created);
+            }
+        }
     });
 
 });

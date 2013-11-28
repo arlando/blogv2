@@ -1,23 +1,18 @@
-require([
+define([
     'backbone',
     'application',
     'collections/Tracks',
     'views/item/SpotifyPlayer',
     'views/collection/Tracks',
-    'views/layout/SpotifyLayout'
+    'views/layout/SpotifyLayout',
+    'configuration/spotify'
 ],
-function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
+function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout, options ){
     return App.module("spotify", function() {
         //controls the spotify module on the page
         var spotifyLayout = new SpotifyLayout(),
             //bootstrappin' jack talkin
-            tracksCollection = new Tracks([
-                {id:1, title: 'Thing1', spotifyuri: '4YrRh7kNgbU2nB4eGIlKeM', artist:'Thing1', playing:true },
-                {id:2, title: 'Thing2', spotifyuri: '6NdSZVSwqlNdkfee1byLAv', artist:'Thing2' },
-                {id:3, title: 'Thing3', spotifyuri: '0AMMjcRxVNOnQjmdXNgF2e', artist:'Thing3' },
-                {id:4, title: 'Thing4', spotifyuri: '5WACLmxePHgd45hptug9n1', artist:'Thing4' },
-                {id:5, title: 'Thing5', spotifyuri: '2OCHjMefU4lUWLNz8sKw48', artist:'Thing5' }
-            ]),
+            tracksCollection = new Tracks(options.tracks),
             tracksView = new TracksView(
                     {collection : tracksCollection}
             ),
@@ -37,7 +32,7 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout ){
 
         //spotify app region
         App.addRegions({
-            spotify : '#spotify'
+            spotify : options.layout
         });
 
         //wreqr for communication,

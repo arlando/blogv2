@@ -5,34 +5,26 @@ define([
 ],
 function( Backbone, HomeviewTmpl, socket ) {
     'use strict';
-
-    /* Return a ItemView class definition */
     return Backbone.Marionette.ItemView.extend({
-        currentMessage: '',
         initialize: function() {
-            //get the current message
+            //get the current message from the socketio store
+            //set the textarea value to this message
             socket.emit('getmessage', function(message) {
                 self.$el.val(message);
             });
         },
-
         template: HomeviewTmpl,
-        tagName: 'input',
-        className: 'homeSocketMessage',
-
-        /* ui selector cache */
-        ui: {},
-
-        /* Ui events hash */
-        events: {
-            'keypress' : 'updateHomeMessage'
+        tagName: 'textarea',
+        className: 'home-socket',
+        attributes: {
+            'maxlength' : 512
         },
-
-        /* on render callback */
+        events: {
+            'keyup' : 'updateHomeMessage'
+        },
         onRender: function() {
             var self = this;
             socket.on('updatemessage', function(message) {
-                debugger;
                 self.$el.val(message);
             });
         },
@@ -40,5 +32,4 @@ function( Backbone, HomeviewTmpl, socket ) {
             socket.emit('sendmessage', this.$el.val());
         }
     });
-
 });

@@ -1,24 +1,23 @@
 define([
-	'backbone'
+    'backbone'
 ],
 function( Backbone ) {
     'use strict';
 
-	/* Return a model class definition */
-	return Backbone.Model.extend({
+    /* Return a model class definition */
+    return Backbone.Model.extend({
         url: '/api/v1/posts',
-
+        selected: false,
         //to get the CID for the template need to override jSON method
         toJSON: function() {
             var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
             json.cid = this.cid;
             return json;
         },
-
         baucis: function (options, fetchOptions) {
             fetchOptions = _.clone(fetchOptions || {});
             fetchOptions.data = {};
-            
+
             if (options) {
                 Object.keys(options).forEach(function (key) {
                     var value = options[key];
@@ -26,8 +25,7 @@ function( Backbone ) {
                         fetchOptions.data[key] = value;
                 });
             }
-
             return this.fetch(fetchOptions);
-        },
+        }
     });
 });

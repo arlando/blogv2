@@ -45,7 +45,7 @@ require.config({
         json2: '../bower_components/require-handlebars-plugin/hbs/json2',
         hbs: '../bower_components/require-handlebars-plugin/hbs',
 
-        /*socket*/
+        /*socketio*/
         socketio: '/socket.io/socket.io'
     },
 
