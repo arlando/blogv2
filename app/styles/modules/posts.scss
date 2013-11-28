@@ -22,10 +22,7 @@ li.post-title {
   text-transform: uppercase;
   padding: 4px;
   border-bottom: 1px solid #313131;
-  transition: all .25s ease-in;
-}
-
-li.post-title:hover {
+  transition: all .10s ease-in;
 }
 
 .post-meta {
@@ -52,8 +49,7 @@ li.post-title:hover {
   padding: 20px 0 0 35px;
 }
 
-.active-post {
-  background-image: url('/images/mainbg1.gif');
+li.post-title:hover, .active-post {
   text-shadow: 0 1px 5px #000;
   -webkit-transform: translateX(2px);
   transform: translateX(2px);
