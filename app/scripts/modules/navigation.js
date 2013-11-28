@@ -1,21 +1,17 @@
 define([
     'backbone',
     'application',
-    'views/collection/NavigationView'
+    'views/collection/NavigationView',
+    'configuration/mainNavigation'
 ],
-function( Backbone, App, NavigationView ) {
+function( Backbone, App, NavigationView, options ) {
     return App.module("navigation", function() {
         //this app manages the links on the homepage
-        var links = new Backbone.Collection([
-                {name:'Home', klass: '', glyphicon: 'home' },
-                {name:'About', klass: 'about', glyphicon: 'question-sign' },
-                {name:'Artwork', klass: 'artwork', glyphicon: 'picture' },
-                {name:'Blog', klass: 'blog', glyphicon: 'eye-open' }
-            ]),
+        var links = new Backbone.Collection(options.links),
             navigationView;
 
         App.addRegions({
-            navigation: '.layout-navigation'
+            navigation: options.layout
         });
 
         App.addInitializer( function() {

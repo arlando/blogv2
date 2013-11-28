@@ -30,7 +30,6 @@ function( Backbone, PostslayoutTmpl  ) {
                 self.listenTo(view, 'itemview:event:show-post', self.updatePosts);
             });
         },
-
         //should update the currentpost region with the clicked
         //LI in the view in the subview
         updatePosts: function(args) {

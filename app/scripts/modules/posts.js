@@ -8,7 +8,6 @@ define([
 ],
 function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) {
     return App.module("posts", function() {
-        console.log('starting post');
         var posts = new Posts(),
             postsView,
             postsLayout = new PostsLayout(),
