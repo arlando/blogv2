@@ -18,7 +18,6 @@ function( Backbone, App, AboutView, HomeView ) {
         });
 
         App.vent.on('show-page-home', function() {
-            console.log('hometriggered');
             var homePage = new HomeView();
             App.page.show(homePage);
         });

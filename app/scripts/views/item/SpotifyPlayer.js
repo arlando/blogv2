@@ -8,9 +8,8 @@ function( Backbone, SpotifyplayerTmpl, Track  ) {
 
     /* Return a ItemView class definition */
     return Backbone.Marionette.ItemView.extend({
-
+        //TODO fix this
         initialize: function() {
-            console.log("initialize a Spotifyplayer ItemView");
             Backbone.on('update-spotify-player', this.setURI, this);
         },
         template: SpotifyplayerTmpl,

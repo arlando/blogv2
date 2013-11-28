@@ -18,18 +18,13 @@ function( Backbone, App ) {
         //modules handle the event bubbling
         //show-modulename-trigger
         home: function() {
-            console.log('show home...');
             App.vent.trigger('show-page-home');
         },
         about: function() {
-            console.log('show about...');
             App.vent.trigger('show-page-about');
         },
-        artwork: function() {
-            console.log('show artwork...');
-        },
+        artwork: function() {},
         blog: function() {
-            console.log('show blog...');
             App.vent.trigger('show-posts-blog');
         }
     };
