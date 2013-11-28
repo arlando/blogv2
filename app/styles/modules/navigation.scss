@@ -14,15 +14,14 @@
   padding-left: 25px;
   transition: all 0.20s ease-in;
   //text-transform: uppercase;
+  @include link-colors(#6D6D6D, #838383, #D3D3D3);
+}
 
-  a {
-    @include link-colors(#6D6D6D, #838383, #D3D3D3);
-  }
-
-  a:hover {
-    text-shadow: 0 0 1px #FFF;
-    text-decoration: none;
-  }
+//TODO Research SCSS hover states mixin
+.navigation-link:hover {
+  text-shadow: 0 0 1px #FFF;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .active-nav {

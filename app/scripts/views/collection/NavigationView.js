@@ -40,14 +40,18 @@ function( Backbone, Navigation ) {
         changePage: function(e) {
             var navLink = this.collection.get(e.currentTarget.getAttribute('data-navigation-cid'));
             var currentPage = this.getCurrentPage();
+
             //if the clicked link is not the currently active link was not clicked again
             if ( !navLink.get('active') ) {
+
                 //find the current page toggle the state
                 currentPage.set('active', false);
                 var isActive = navLink.get('active');
                 isActive = (isActive) ? false : true;
                 navLink.set('active', isActive);
-                //navLink.addActive();
+
+                //tell router to navigate to the appropriate link
+                Backbone.history.navigate( navLink.get('klass'), {trigger: true} );
             }
         }
     });

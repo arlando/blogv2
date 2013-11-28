@@ -5,8 +5,6 @@ define([
 
 function( Backbone, App ) {
     'use strict';
-    console.log('da routa has be finalized');
-
     var Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             "": "home",

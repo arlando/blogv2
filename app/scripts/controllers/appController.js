@@ -1,3 +1,4 @@
+//TODO: DELETE THE APP KONTRLLER
 define([
 	'backbone'
 ],
@@ -8,7 +9,7 @@ function( Backbone ) {
 
 		initialize: function( options ) {
 			console.log("initialize a Appcontroller Controller");
-		},  
+		},
         //should load the about page
         about: function() {
                 console.log('ok');
