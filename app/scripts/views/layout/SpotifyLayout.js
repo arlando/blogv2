@@ -20,7 +20,7 @@ function( Backbone, SpotifylayoutTmpl ) {
         updateTrack: function(args) {
             //tell the spotify player to come correct! ie listen for change-spotify-track event
             //for when a track is clicked
-            this.player.currentView.setURI(tracksView.getPlaying());
+            this.player.currentView.setURI(this.tracks.currentView.getPlaying());
         }
     });
 });
