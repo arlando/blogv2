@@ -4,15 +4,10 @@ define([
 ],
 function( Backbone, PostItemView  ) {
     'use strict';
-
-    /* Return a CompositeView class definition */
     return Backbone.Marionette.CollectionView.extend({
         itemView : PostItemView,
         tagName : 'ul',
         className : 'posts-titles',
-        events : {
-           // 'click li' : 'changeCurrentPost'
-        },
         currentPost: void 0,
         onBeforeRender : function() {
             if (this.currentPost === void 0) {

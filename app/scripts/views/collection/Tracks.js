@@ -4,8 +4,6 @@ define([
 ],
 function( Backbone, TrackView ) {
     'use strict';
-
-    /* Return a ItemView class definition */
     return Backbone.Marionette.CollectionView.extend({
         itemView: TrackView,
         tagName: 'ul',

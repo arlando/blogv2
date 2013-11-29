@@ -2,7 +2,6 @@ define([
     'backbone',
     'application'
 ],
-
 function( Backbone, App ) {
     'use strict';
     var Router = Backbone.Marionette.AppRouter.extend({
@@ -31,6 +30,5 @@ function( Backbone, App ) {
     var router = new Router({
         controller: Controller
     });
-
     return router;
 });

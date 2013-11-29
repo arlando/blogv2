@@ -13,9 +13,10 @@ function( Backbone, TrackTmpl, Tracks ) {
         collection: Tracks,
         tagName: 'li',
         className: 'spotify-track',
-        /* on render callback */
         onBeforeRender: function() {
-            this.$el.attr('data-track-id', this.model.cid) //should only set this once
+            //should only set this once ... need to investigate better pattern of setting
+            //this bad boy
+            this.$el.attr('data-track-id', this.model.cid);
             if (this.model.get('playing')) {
                 this.addPlaying();
             } else {

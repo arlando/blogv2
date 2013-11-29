@@ -5,7 +5,6 @@ define([
 function( Backbone, PostslayoutTmpl  ) {
     'use strict';
     return Backbone.Marionette.Layout.extend({
-
         template: PostslayoutTmpl,
         tagName: 'div',
         className: 'layout-posts-current-post',

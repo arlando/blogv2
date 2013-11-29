@@ -37,5 +37,4 @@ function( Backbone, App, Tracks, SpotifyPlayer, TracksView, SpotifyLayout, optio
             App.spotify.show(spotifyLayout);
         });
     });
-
 });

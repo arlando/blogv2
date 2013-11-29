@@ -10,11 +10,9 @@ function( Backbone ) {
             artist: "Default Artist",
             playing: false
         },
-
         isPlaying: function() {
             return this.get('playing');
         },
-
         togglePlaying: function() {
             this.set('playing', !this.get('playing'));
         }

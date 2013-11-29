@@ -33,8 +33,6 @@ function( Backbone, PostitemviewTmpl  ) {
         triggerCurrentPost: function() {
             //trigger the event post and postlayouts will pick it up
             this.trigger('event:show-post');
-
-            //trigger event so that the current tab will be highlighted
         }
     });
 });

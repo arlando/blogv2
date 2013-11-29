@@ -3,8 +3,6 @@ define([
 ],
 function( Backbone ) {
     'use strict';
-
-    /* Return a model class definition */
     return Backbone.Model.extend({
         url: '/api/v1/posts',
         selected: false,
@@ -17,7 +15,6 @@ function( Backbone ) {
         baucis: function (options, fetchOptions) {
             fetchOptions = _.clone(fetchOptions || {});
             fetchOptions.data = {};
-
             if (options) {
                 Object.keys(options).forEach(function (key) {
                     var value = options[key];
