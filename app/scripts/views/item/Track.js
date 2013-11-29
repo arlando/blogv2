@@ -5,19 +5,14 @@ define([
 ],
 function( Backbone, TrackTmpl, Tracks ) {
     'use strict';
-
-    /* Return a ItemView class definition */
     return Backbone.Marionette.ItemView.extend({
-
         initialize: function() {
             this.model.on('change:playing', this.render);
         },
-
         template: TrackTmpl,
         collection: Tracks,
         tagName: 'li',
-        className: 'spotify-track', 
-
+        className: 'spotify-track',
         /* on render callback */
         onBeforeRender: function() {
             this.$el.attr('data-track-id', this.model.cid) //should only set this once
@@ -27,11 +22,9 @@ function( Backbone, TrackTmpl, Tracks ) {
                 this.removePlaying();
             }
         },
-
         addPlaying: function() {
             this.$el.addClass('currently-playing');
         },
-
         removePlaying: function() {
             this.$el.removeClass('currently-playing');
         }

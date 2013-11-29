@@ -4,21 +4,15 @@ define([
 ],
 function( Backbone, PostslayoutTmpl  ) {
     'use strict';
-
-    /* Return a Layout class definition */
     return Backbone.Marionette.Layout.extend({
 
         template: PostslayoutTmpl,
         tagName: 'div',
         className: 'layout-posts-current-post',
-        /* Layout sub regions */
-        initialize: function() {},
-
         regions: {
             posts: '.layout-posts',
             currentpost: '.layout-current-post'
         },
-
         onRender: function() {
             //have to init bindings here because each time the view is closed
             //these bindings are lost, because of memory management.

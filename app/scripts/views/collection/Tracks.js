@@ -14,18 +14,15 @@ function( Backbone, TrackView ) {
         events: {
             'click li': 'changeCurrentTrack'
         },
-
         findPlayingTrack: function() {
             var currentTrack = this.getPlaying();
             currentTrack ? currentTrack.togglePlaying() : '';
         },
-
         getPlaying: function() {
             return this.collection.find( function(track) {
                 return track.isPlaying();
             });
         },
-
         changeCurrentTrack: function(e) {
             var track = this.collection.get(e.currentTarget.getAttribute('data-track-id'));
             e.preventDefault();
@@ -38,10 +35,9 @@ function( Backbone, TrackView ) {
                 //add the new state
                 track.togglePlaying();
 
-                //tell Backbone to update the view
-                Backbone.trigger('update-spotify-player');
+                //tell the layout to update the view
+                this.trigger('event:change-spotify-track');
             }
         }
     });
-
 });

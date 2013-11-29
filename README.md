@@ -19,4 +19,4 @@
 #####2. Encapsulation of Event Bubbling [no more extending the global event bus]
 #####3. Router Usage
 #####4. App.vent triggers delegate down from the main app to the module
-#####5. CollectionViews listen to events on the ItemView
+#####5. Module Layouts listen to events on subviews (item/collection views) delegates appropriately

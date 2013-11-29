@@ -8,5 +8,4 @@ function( Backbone, AboutviewTmpl  ) {
         template: AboutviewTmpl,
         className: 'about'
     });
-
 });

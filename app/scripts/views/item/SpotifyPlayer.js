@@ -1,29 +1,23 @@
 define([
     'backbone',
-    'hbs!tmpl/item/SpotifyPlayer_tmpl',
-    'models/Track'
+    'hbs!tmpl/item/SpotifyPlayer_tmpl'
 ],
-function( Backbone, SpotifyplayerTmpl, Track  ) {
+function( Backbone, SpotifyplayerTmpl  ) {
     'use strict';
-
-    /* Return a ItemView class definition */
     return Backbone.Marionette.ItemView.extend({
-        //TODO fix this
         initialize: function() {
             Backbone.on('update-spotify-player', this.setURI, this);
         },
         template: SpotifyplayerTmpl,
-
         //sets a spotify uri and re-renders the attached view
         setURI: function(model) {
             this.model = model;
             this.render();
         },
-
         loaded: function() {
-            console.log('spotify player loaded something');
+            //TODO: finish implementing iframe loaded stuff
+            //fired when the new track iframe is finished loading
         },
-
         /* on render callback */
         onRender: function() {
             var self = this;
