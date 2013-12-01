@@ -4,6 +4,7 @@ define([
     'socketHook'
 ],
 function( Backbone, HibiscusTmpl, socket ) {
+    //TODO
     'use strict';
     return Backbone.Marionette.ItemView.extend({
 
