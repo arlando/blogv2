@@ -324,7 +324,8 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy',
-        'usemin'
+        'usemin',
+        'express:prod'
     ]);
 
 };
