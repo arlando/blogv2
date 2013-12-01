@@ -95,11 +95,10 @@ db.once('open', function callback () {
     });
     
 
-    var app = express();
-    app.use(express.logger());
+    var app = express.createServer(express.logger());
 
     app.configure(function(){
-        app.set('port', process.env.PORT || 9000);
+        //app.set('port', process.env.PORT || 9000);
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
     });
@@ -123,8 +122,9 @@ db.once('open', function callback () {
     });
 
     //start server
-    var server = app.listen(app.get('port'), function(){
-        console.log('Express App started! on port' + app.get('port'));
+    var port = process.env.PORT || 5000;
+    var server = app.listen(port, function(){
+        console.log('Express App started! on port ' + port);
     });
 
     //socket.io
