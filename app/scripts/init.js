@@ -17,6 +17,9 @@ require.config({
         bootstrap: {
             deps: ['jquery'],
             exports: 'jquery'
+        },
+        'socketio': {
+            exports: 'io'
         }
     },
 
@@ -46,7 +49,7 @@ require.config({
         hbs: '../bower_components/require-handlebars-plugin/hbs',
 
         /*socketio*/
-        socketio: '/socket.io/socket.io'
+        socketio: '../socket.io/socket.io'
     },
 
     hbs: {

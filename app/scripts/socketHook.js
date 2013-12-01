@@ -2,7 +2,7 @@
 define([
     'socketio'
 ],
-function() {
+function( io ) {
    var socket = io.connect('http://localhost');
    return socket; 
 });
