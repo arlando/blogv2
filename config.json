@@ -1,4 +1,6 @@
 {
     "ACTIVE_DB": "mongodb",
-    "DATABASE_URL": "mongodb://localhost/post_database"
+    "DATABASE_URL": "mongodb://localhost/post_database",
+    "DATABASE_USER": "LOCAL",
+    "DATABASE_PASSWORD": "HIPSTER"
 }

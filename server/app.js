@@ -16,7 +16,7 @@ CONFIG.load(['config.json']);
 // start mongoose
 mongoose.connect(process.env.DATABASE_URL || CONFIG.DATABASE_URL);
 var db = mongoose.connection;
-
+db.authenticate(process.env.DATABASE_USER || CONFIG.DATABASE_USER, process.env.DATABASE_PASSWORD || CONFIG.DATABASE_PASSWORD);
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
@@ -79,6 +79,7 @@ db.once('open', function callback () {
             });
         });
 
+    //TODO REMOVE CLEARING
     //clear of old posts 
     mongoose.model('post').remove(function (err) {
         if (err) throw err;
