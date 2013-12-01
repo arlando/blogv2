@@ -303,7 +303,6 @@ module.exports = function (grunt) {
         ]);
     });
 
-    // todo fix these
     grunt.registerTask('test', [
         'clean:server',
         'createDefaultTemplate',
@@ -325,7 +324,8 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy',
-        'usemin'
+        'usemin',
+        'express:prod'
     ]);
 
 };
