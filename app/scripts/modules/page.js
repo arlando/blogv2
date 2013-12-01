@@ -2,7 +2,8 @@ define([
     'backbone',
     'application',
     'views/item/AboutView',
-    'views/item/HomeView'
+    'views/item/HomeView',
+    'views/item/hibiscus'
 ],
 function( Backbone, App, AboutView, HomeView ) {
     //this module holds individual pages and swaps out
@@ -18,9 +19,13 @@ function( Backbone, App, AboutView, HomeView ) {
         });
 
         App.vent.on('show-page-home', function() {
-            console.log('hometriggered');
             var homePage = new HomeView();
             App.page.show(homePage);
+        });
+
+        App.vent.on('show-page-hibiscus', function() {
+            var hibiscusPage = new HibiscusView();
+            App.page.show(hibiscusPage);
         });
     });
 });

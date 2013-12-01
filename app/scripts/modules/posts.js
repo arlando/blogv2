@@ -18,7 +18,6 @@ function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) 
             postsLayout.currentpost.show(currentPost);
         });
 
-        //TODO create posts namespace for events
         //whenever user clicks on the show blog route trigger this vent
         App.vent.on('show-posts-blog', function() {
             //if we have already fetched the posts and rendered the view before... no point in doing it again

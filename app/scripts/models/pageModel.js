@@ -1,11 +1,9 @@
 define([
-	'backbone'
+    'backbone'
 ],
 function( Backbone ) {
     'use strict';
-
-	/* Return a model class definition */
-	return Backbone.Model.extend({
+    return Backbone.Model.extend({
         content:''
     });
 });

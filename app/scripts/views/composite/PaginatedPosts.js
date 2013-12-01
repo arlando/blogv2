@@ -4,15 +4,10 @@ define([
 ],
 function( Backbone, PostItemView  ) {
     'use strict';
-
-    /* Return a CompositeView class definition */
     return Backbone.Marionette.CollectionView.extend({
         itemView : PostItemView,
         tagName : 'ul',
         className : 'posts-titles',
-        events : {
-           // 'click li' : 'changeCurrentPost'
-        },
         currentPost: void 0,
         onBeforeRender : function() {
             if (this.currentPost === void 0) {
@@ -20,8 +15,7 @@ function( Backbone, PostItemView  ) {
             }
         },
         setCurrentPost : function() {
-            //get the selected post
-            console.log('current post', this.getSelectedPost());
+            //get the selected posts
             this.currentPost = this.getSelectedPost() || this.collection.at(0);
             return this.currentPost.set('selected', true);
         },
@@ -35,7 +29,6 @@ function( Backbone, PostItemView  ) {
             if ( !navLink.get('selected') ) {
                 //find the current page toggle the state
                 this.currentPost.set('selected', false);
-                var isActive = navLink.get('selected');
                 navLink.set('selected', true);
                 this.currentPost = navLink;
             }

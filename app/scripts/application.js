@@ -2,7 +2,6 @@ define([
     'backbone',
     'communicator'
 ],
-
 function( Backbone, Communicator ) {
     'use strict';
 

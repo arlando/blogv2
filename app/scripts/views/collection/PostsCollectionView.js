@@ -1,3 +1,4 @@
+//TODO DELETE POST COLLECTION VIEW
 define([
 	'backbone',
 	'views/item/PostItemView'
