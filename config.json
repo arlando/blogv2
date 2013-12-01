@@ -1,0 +1,4 @@
+{
+    "ACTIVE_DB": "mongodb",
+    "CONNECTION_STRING": "mongodb://localhost/post_database"
+}

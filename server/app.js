@@ -8,9 +8,13 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
+var CONFIG = require('jsonconfig');
+
+//Load Configuration Settings
+CONFIG.load(['config.json']);
 
 // start mongoose
-mongoose.connect('mongodb://localhost/post_database');
+mongoose.connect(CONFIG.CONNECTION_STRING);
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
