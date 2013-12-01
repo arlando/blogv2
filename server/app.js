@@ -96,6 +96,7 @@ db.once('open', function callback () {
     
 
     var app = express();
+    app.use(express.logger());
 
     app.configure(function(){
         app.set('port', process.env.PORT || 9000);
@@ -122,7 +123,7 @@ db.once('open', function callback () {
     });
 
     //start server
-    var server = http.createServer(app).listen(app.get('port'), function(){
+    var server = app.listen(app.get('port'), function(){
         console.log('Express App started! on port' + app.get('port'));
     });
 
