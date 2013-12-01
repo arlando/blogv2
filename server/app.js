@@ -14,7 +14,7 @@ var CONFIG = require('jsonconfig');
 CONFIG.load(['config.json']);
 
 // start mongoose
-mongoose.connect(CONFIG.CONNECTION_STRING);
+mongoose.connect(process.env.DATABASE_URL);
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
