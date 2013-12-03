@@ -4,7 +4,7 @@
 
 * NodeJS for SocketIO and API
 
-* nginx for serving static assets
+* nginx for serving static dist assets
 
 * Express for server
 
