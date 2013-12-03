@@ -21,9 +21,7 @@ function( Backbone, SpotifyplayerTmpl  ) {
         /* on render callback */
         onRender: function() {
             var self = this;
-
-            //bind this function so we know when it rendere
-            //console.log(this.$el.find('#spotify-player-iframe'));
+            //bind this function so we know when its rendered
             this.$el.find('#spotify-player-iframe').load( function() {
                 self.loaded();
             });
