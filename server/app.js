@@ -95,10 +95,9 @@ db.once('open', function callback () {
     });
     
 
-    var app = express.createServer(express.logger());
+    var app = express(express.logger());
 
     app.configure(function(){
-        //app.set('port', process.env.PORT || 9000);
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
     });
@@ -112,9 +111,12 @@ db.once('open', function callback () {
       next();
     });
 
+    //This is slow for production... lets use nginx instead for production
+    //TODO MAKE THIS WORK FOR DEVELOPMENT
     // mount static
-    app.use(express.static( path.join( __dirname, '../app') ));
-    app.use(express.static( path.join( __dirname, '../.tmp') ));
+    //app.use(express.static( path.join( __dirname, '../app') ));
+    //app.use(express.static( path.join( __dirname, '../.tmp') ));
+    //
 
     // route index.html
     app.get('/', function(req, res){
@@ -141,7 +143,7 @@ db.once('open', function callback () {
 
         //when the client sends us a message
         socket.on('sendmessage', function (message) {
-            currentmessage = (message.length < 512 ) ? message : currentmessage;
+            currentmessage = (message.length < maxMessageLength ) ? message : currentmessage;
             socket.broadcast.emit('updatemessage', currentmessage);
         });
     });

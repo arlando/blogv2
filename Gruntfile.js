@@ -82,7 +82,7 @@ module.exports = function (grunt) {
         express: {
             options: {
                 // Override defaults here
-                port: '9000'
+                port: '5000'
             },
             dev: {
                 options: {
@@ -157,6 +157,7 @@ module.exports = function (grunt) {
                     // `name` and `out` is set by grunt-usemin
                     baseUrl: 'app/scripts',
                     optimize: 'none',
+                    mainConfigFile: 'app/scripts/init.js',
                     paths: {
                         'templates': '../../.tmp/scripts/templates'
                     },
@@ -325,7 +326,8 @@ module.exports = function (grunt) {
         'uglify',
         'copy',
         'usemin',
-        'express:prod'
+        'express:prod',
+        'watch'
     ]);
 
 };

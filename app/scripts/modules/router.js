@@ -9,8 +9,7 @@ function( Backbone, App ) {
             "": "home",
             "about": "about",
             "artwork": "artwork",
-            "blog": "blog",
-            "hibiscus": "hibiscus"
+            "blog": "blog"
         }
     }),
     Controller = {
@@ -26,9 +25,6 @@ function( Backbone, App ) {
         artwork: function() {},
         blog: function() {
             App.vent.trigger('show-posts-blog');
-        },
-        hibiscus: function() {
-            App.vent.trigger('show-page-hibiscus');
         }
     };
     var router = new Router({

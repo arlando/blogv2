@@ -22,7 +22,7 @@ function( Backbone, HomeviewTmpl, socket ) {
         events: {
             'keyup' : 'updateHomeMessage'
         },
-        onRender: function() {
+        onShow: function() {
             var self = this;
             socket.on('updatemessage', function(message) {
                 self.$el.val(message);

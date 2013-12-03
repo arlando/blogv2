@@ -4,8 +4,8 @@ require([
     'regionManager',
     'modules/navigation',
     'modules/spotify',
-    'modules/posts',
     'modules/page',
+    'modules/posts',
     'modules/router'
 ],
 function ( Backbone, App ) {
