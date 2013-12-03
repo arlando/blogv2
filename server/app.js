@@ -112,7 +112,7 @@ db.once('open', function callback () {
     });
 
     //This is slow for production... lets use nginx instead for production
-    //TODO MAKE THIS WORK FOR DEVELOPMENT
+    //TODO MAKE THIS WORK FOR DEVELOPMENT and prod
     // mount static
     //app.use(express.static( path.join( __dirname, '../app') ));
     //app.use(express.static( path.join( __dirname, '../.tmp') ));
