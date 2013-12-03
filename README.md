@@ -2,7 +2,9 @@
 
 **Built with:**
 
-* NodeJS for server
+* NodeJS for SocketIO and API
+
+* nginx for serving static assets
 
 * Express for server
 
