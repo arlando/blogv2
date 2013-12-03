@@ -125,7 +125,7 @@ db.once('open', function callback () {
 
     //start server
     var port = process.env.PORT || 5000;
-    var server = app.listen(port, function(){
+    var server = app.listen(port, '127.0.0.1', function(){
         console.log('Express App started! on port ' + port);
     });
 
