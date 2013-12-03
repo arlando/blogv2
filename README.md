@@ -8,7 +8,7 @@
 
 * Express for server
 
-* SocketIO for concurrency
+* SocketIO for messaging
 
 * Baucis for quick API creation
 
