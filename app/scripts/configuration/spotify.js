@@ -4,7 +4,7 @@ define({
         {id:2, title: 'Dusk Til Dawn', spotifyuri: '2YZGF9XDFv5255q0qeDYVo', artist:'' },
         {id:3, title: 'PCTSTSS', spotifyuri: '1lEa7P7BaoBvZMyVnx4hhD', artist:'' },
         {id:4, title: 'Revolution 909', spotifyuri: '5pgZpHqfv4TSomtkfGZGrG', artist:'' },
-        {id:5, title: 'Prelude', spotifyuri: '2OCHjMefU4lUWLNz8sKw48', artist:'' }
+        {id:5, title: 'Prelude', spotifyuri: '3EBR1wPkruWVEhFKh7wLnS', artist:'' }
     ],
     layout: '.layout-spotify'
 });
