@@ -26,13 +26,14 @@
 }
 
 .currently-playing {
-  color: #6D6D6D;
-  background: #E9E9E9;
+  color: #FFF;
+  background: ##FF0000;
   font-weight: 600;
 }
 
 .spotify-player {
   position: absolute;
+  background-image: url('/images/mainbg4.gif');
   -webkit-box-shadow: 0px -2px 19px 0px rgba(0,0,0,0.92);
   -moz-box-shadow: 0px -2px 19px 0px rgba(0,0,0,0.92);
   box-shadow: 0px -2px 19px 0px rgba(0,0,0,0.92);
