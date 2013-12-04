@@ -1,10 +1,10 @@
 define({
     tracks: [
-        {id:1, title: 'Woot1', spotifyuri: '4YrRh7kNgbU2nB4eGIlKeM', artist:'Thing1', playing:true },
-        {id:2, title: 'Woot2', spotifyuri: '6NdSZVSwqlNdkfee1byLAv', artist:'Thing2' },
-        {id:3, title: 'Woot3', spotifyuri: '0AMMjcRxVNOnQjmdXNgF2e', artist:'Thing3' },
-        {id:4, title: 'Woso4', spotifyuri: '5WACLmxePHgd45hptug9n1', artist:'Thing4' },
-        {id:5, title: 'Thing5', spotifyuri: '2OCHjMefU4lUWLNz8sKw48', artist:'Thing5' }
+        {id:1, title: 'Bounce To This', spotifyuri: '3AdFcud4Wmf7a0X0ZFGNP3', artist:'', playing:true },
+        {id:2, title: 'Dusk Til Dawn', spotifyuri: '2YZGF9XDFv5255q0qeDYVo', artist:'' },
+        {id:3, title: 'PCTSTSS', spotifyuri: '1lEa7P7BaoBvZMyVnx4hhD', artist:'' },
+        {id:4, title: 'Revolution 909', spotifyuri: '5pgZpHqfv4TSomtkfGZGrG', artist:'' },
+        {id:5, title: 'Prelude', spotifyuri: '2OCHjMefU4lUWLNz8sKw48', artist:'' }
     ],
     layout: '.layout-spotify'
 });
