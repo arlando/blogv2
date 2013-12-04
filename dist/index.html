@@ -18,7 +18,9 @@
         <link rel="stylesheet" href="styles/main.css">
         
 
-        <script src="scripts/vendor/modernizr.js"></script>
+        <!-- build:js scripts/vendor/modernizr.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
         <script src="/socket.io/socket.io.js"></script>
 
     </head>
@@ -36,7 +38,9 @@
                 </div>
             </div>
         </div>
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+        <!-- build:js scripts/main.js -->
+        <script data-main="scripts/init" src="bower_components/requirejs/require.js"></script>
+        <!-- endbuild -->
 
         <script>document.write('<script src="http://'
             + (location.host || 'localhost').split(':')[0]
