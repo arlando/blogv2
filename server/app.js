@@ -8,13 +8,10 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
-var CONFIG = require('jsonconfig');
 
-//Load Configuration Settings
-CONFIG.load(['config.json']);
 
 // start mongoose
-mongoose.connect(process.env.DATABASE_URL || CONFIG.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/post_database" );
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
@@ -105,12 +102,6 @@ db.once('open', function callback () {
     app.use(express.urlencoded());
     app.use('/api/v1', baucis());
 
-    // simple log
-    app.use(function(req, res, next){
-      console.log('%s %s', req.method, req.url);
-      next();
-    });
-
     //This is slow for production... lets use nginx instead for production
     //TODO MAKE THIS WORK FOR DEVELOPMENT and prod
     // mount static
@@ -125,9 +116,7 @@ db.once('open', function callback () {
 
     //start server
     var port = process.env.PORT || 5000;
-    var server = app.listen(port, '127.0.0.1', function(){
-        console.log('Express App started! on port ' + port);
-    });
+    var server = app.listen(port, '127.0.0.1');
 
     //socket.io
     var io = socketIO.listen(server);

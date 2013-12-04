@@ -1,4 +1,0 @@
-{
-    "ACTIVE_DB": "mongodb",
-    "DATABASE_URL": "mongodb://localhost/post_database"
-}
