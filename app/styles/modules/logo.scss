@@ -8,15 +8,13 @@
   //text-shadow: 0 -1px 0 #000;
   font-size: 22px;
   padding: 15px 0 16px 23px;
-
+  background: #FFF042;
   -webkit-animation: bounce_logo 0.5s ease-in-out 0s 1 alternate;
   -moz-animation: bounce_logo 0.5s ease-in-out 0s 1 alternate;
   -o-animation: bounce_logo 0.5s ease-in-out 0s 1 alternate;
   animation: bounce_logo 0.5s ease-in-out 0s 1 alternate;
-
   -webkit-transition: all 1s ease-in-out;
   transition: all 1s ease-in-out;
-
 }
 
 @-webkit-keyframes bounce_logo { from { margin-top:-50%; } to { margin-top:0; }  }
