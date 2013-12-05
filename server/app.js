@@ -103,11 +103,13 @@ db.once('open', function callback () {
     app.use('/api/v1', baucis());
 
     //This is slow for production... lets use nginx instead for production
-    //TODO MAKE THIS WORK FOR DEVELOPMENT and prod
-    // mount static
-    //app.use(express.static( path.join( __dirname, '../app') ));
-    //app.use(express.static( path.join( __dirname, '../.tmp') ));
-    //
+    //TODO MAKE THIS WORK FOR DEVELOPMENT and prod better ... less of hack
+    //safe to assume if this isn't defined then we are probably playing on localhost
+    if ( !process.env.DATABASE_URL ) {
+        // mount static
+        app.use(express.static( path.join( __dirname, '../app') ));
+        app.use(express.static( path.join( __dirname, '../.tmp') ));
+    }
 
     // route index.html
     app.get('/', function(req, res){
