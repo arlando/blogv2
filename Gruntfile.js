@@ -133,6 +133,8 @@ module.exports = function (grunt) {
         compass: {
             options: {
                 sassDir: '<%= yeoman.app %>/styles',
+                //only build main because main imports other assets
+                specify: '<%= yeoman.app %>/styles/main.scss',
                 cssDir: '.tmp/styles',
                 imagesDir: '<%= yeoman.app %>/images',
                 javascriptsDir: '<%= yeoman.app %>/scripts',
@@ -214,7 +216,7 @@ module.exports = function (grunt) {
                 files: {
                     '<%= yeoman.dist %>/styles/main.css': [
                         '.tmp/styles/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
+                        //'<%= yeoman.app %>/styles/{,*/}*.css'
                     ]
                 }
             }
