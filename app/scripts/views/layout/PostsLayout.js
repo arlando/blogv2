@@ -31,6 +31,9 @@ function( Backbone, PostslayoutTmpl  ) {
 
             //update the current selected post in the posts region
             this.posts.currentView.changeCurrentPost(args.model);
+
+            //navigate to the current page... call route function so ga can track
+            Backbone.history.navigate( 'blog' + '/' + args.model.get('_id'), {trigger: true});
         }
     });
 });
