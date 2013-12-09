@@ -25,7 +25,6 @@ function( Backbone, App ) {
                 url = "/" + url;
             }
             _gaq.push(['_trackPageview', url]);
-            console.log('pushed ', url);
         }
     }),
     Controller = {
