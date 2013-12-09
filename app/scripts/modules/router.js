@@ -6,11 +6,11 @@ function( Backbone, App ) {
     'use strict';
     var Router = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            "": "home",
-            "about": "about",
-            "artwork": "artwork",
-            "blog": "blog",
-            "blog/:id": "blogTrack"
+            '': 'home',
+            'about': 'about',
+            'artwork': 'artwork',
+            'blog': 'blog',
+            'blog/:id': 'blogTrack'
         },
         initialize: function() {
             //track every page route in google analytics
@@ -21,8 +21,8 @@ function( Backbone, App ) {
             var url = Backbone.history.getFragment();
 
             //prepend slash
-            if (!/^\//.test(url) && url != "") {
-                url = "/" + url;
+            if (!/^\//.test(url) && url != '') {
+                url = '/' + url;
             }
             _gaq.push(['_trackPageview', url]);
         }
