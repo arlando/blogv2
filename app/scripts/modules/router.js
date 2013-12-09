@@ -10,6 +10,18 @@ function( Backbone, App ) {
             "about": "about",
             "artwork": "artwork",
             "blog": "blog"
+        },
+        initialize: function() {
+            //track every page route in google analytics
+            this.bind('route', this.trackPageview);
+        },
+        trackPageview: function() {
+            var url = Backbone.history.getFragment();
+            //prepend slash
+            if (!/^\//.test(url) && url != "") {
+                url = "/" + url;
+            }
+            _gaq.push(['_trackPageview', url]);
         }
     }),
     Controller = {
