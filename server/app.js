@@ -8,9 +8,13 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
+var prod = false;
 
 
 // start mongoose
+if (process.env.DATABASE_URL) {
+   prod = true;
+}
 mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/post_database" );
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -71,33 +75,38 @@ db.once('open', function callback () {
     var Post = mongoose.model( 'post',  PostSchema );
     
     //dummy data
-    var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
-        'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
-    var posts = samplePosts.map(function (post) { 
-            return new Post({ 
-                title: post,
-                callout: 'This is a callout',
-                content: '<h3>test</h3>'+Math.random(),
-                tags: [{name: 'nodejs'}, {name: 'awesome'}]
+    if (!prod) {
+        var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
+            'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
+        var posts = samplePosts.map(function (post) {
+                return new Post({
+                    title: post,
+                    callout: 'This is a callout',
+                    content: '<h3>test</h3>'+Math.random(),
+                    tags: [{name: 'nodejs'}, {name: 'awesome'}]
+                });
             });
+
+        //TODO REMOVE CLEARING
+        //clear of old posts
+        mongoose.model('post').remove(function (err) {
+            if (err) throw err;
         });
 
-    //TODO REMOVE CLEARING
-    //clear of old posts 
-    mongoose.model('post').remove(function (err) {
-        if (err) throw err;
-    });
+        //put new posts in
+        mongoose.model('post').create(posts, function (err) {
+            if (err) throw err;
 
-    //put new posts in
-    mongoose.model('post').create(posts, function (err) {
-        if (err) throw err;
-
-            /* set Baucis */
-            var controller = baucis.rest({
-                singular: 'post'
-            });
-    });
-    
+                /* set Baucis */
+                var controller = baucis.rest({
+                    singular: 'post'
+                });
+        });
+    } else {
+        var controller = baucis.rest({
+            singular: 'post'
+        });
+    }
 
     var app = express(express.logger());
 
@@ -112,7 +121,7 @@ db.once('open', function callback () {
     //This is slow for production... lets use nginx instead for production
     //TODO MAKE THIS WORK FOR DEVELOPMENT and prod better ... less of hack
     //safe to assume if this isn't defined then we are probably playing on localhost
-    if ( !process.env.DATABASE_URL ) {
+    if ( !prod ) {
         // mount static
         app.use(express.static( path.join( __dirname, '../app') ));
         app.use(express.static( path.join( __dirname, '../.tmp') ));
