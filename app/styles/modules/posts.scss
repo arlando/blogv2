@@ -4,6 +4,7 @@
   @include no-bullets;
   padding: 0;
   margin: 0;
+  overflow: auto;
   height: 100%;
   -webkit-animation: bounce_titles .75s ease-in 0s 1 alternate;
   -moz-animation: bounce_titles 0.5s ease-in-out 0s 1 alternate;
@@ -16,15 +17,7 @@
 @-o-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 @keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 
-li.post-title {
-  font-weight: 800;
-  text-transform: uppercase;
-  padding: 4px;
-  border-bottom: 1px solid #313131;
-  -moz-transition: all .10s ease-in;
-  -webkit-transition: all .10s ease-in;
-  transition: all .10s ease-in;
-}
+
 
 .post-meta {
 }
@@ -34,11 +27,8 @@ li.post-title {
   color: #FFF;
   width: 100%;
   font-weight: 600;
-  font-size: 32px;
-  font-family: 'Josefin Sans';
+  font-size: 12px;
   padding: 10px 0 10px 10px;
-  border-bottom: 1px solid #313131;
-  box-shadow: inset 0 0 75px #000000;
 }
 
 .post-likes {
@@ -49,11 +39,30 @@ li.post-title {
   padding: 20px 0 0 35px;
 }
 
-li.post-title:hover, .active-post {
-  text-shadow: 0 1px 5px #000;
-  -webkit-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-box-shadow: inset 0 0 100px #000000;
-  -webkit-box-shadow: inset 0 0 100px #000000;
-  box-shadow: inset 0 0 75px #000000;
+//navbar styling
+.post-title {
+  font-weight: 400;
+  font-size: 16px;
+  padding-bottom: 35px;
+  -moz-transition: all .10s ease-in;
+  -webkit-transition: all .10s ease-in;
+  transition: all .10s ease-in;
+  cursor: pointer;
+}
+
+.post-title:first-child {
+  padding-top: 16px;
+}
+
+.post-title-callout {
+  padding-top: 3px;
+  font-size: 15px;
+  font-style: italic;
+  font-family: Times, serif;
+}
+
+.post-title:hover, .active-post {
+  padding-left: 2px;
+  margin: 0;
+  text-shadow: 0 0 1px #FFF;
 }

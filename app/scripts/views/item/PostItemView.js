@@ -17,7 +17,8 @@ function( Backbone, PostitemviewTmpl  ) {
             this.model.on('change:selected', this.render);
         },
         onBeforeRender: function() {
-            this.$el.attr('data-post-cid', this.model.cid); //should only set this once            if (this.model.get('active')) {
+            this.$el.attr('data-post-cid', this.model.cid); //should only set this once
+            // if (this.model.get('active')) {
             if (this.model.get('selected')) {
                 this.addActive();
             } else {

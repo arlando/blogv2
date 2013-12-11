@@ -36,11 +36,17 @@ db.once('open', function callback () {
 
     //Post input a post can have multiple tags
     var PostSchema = new mongoose.Schema({
-        title: { type: String, 
+        title: {
+            type: String,
             validate: [isEmptyString, 'post title is required']
         },
+        callout: {
+            type: String,
+            validate: [isEmptyString, 'callout is required']
+        },
         tags: [Tag],
-        content: { type: String, trim: true,
+        content: {
+            type: String, trim: true,
             validate: [isEmptyString, 'post must have content']
         },
         meta: {
@@ -70,6 +76,7 @@ db.once('open', function callback () {
     var posts = samplePosts.map(function (post) { 
             return new Post({ 
                 title: post,
+                callout: 'This is a callout',
                 content: '<h3>test</h3>'+Math.random(),
                 tags: [{name: 'nodejs'}, {name: 'awesome'}]
             });
