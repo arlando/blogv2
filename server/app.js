@@ -105,7 +105,10 @@ db.once('open', function callback () {
         });
     } else {
            baucis.rest({
-               singular: 'post'
+               singular: 'post',
+               del: false,
+               put: false,
+               post: false
            });
     }
 
