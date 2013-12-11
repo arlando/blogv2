@@ -9,14 +9,13 @@
   left: 0;
   @include clearfix;
   @include height;
-  background: #FFF042;
+  background: #000;
 }
 
 .layout-main {
   position: fixed;
   float: left;
   width: 100%;
-  background-image: url('/images/mainbg2.gif');
   margin-left: 250px;
   @include clearfix;
   @include height;
@@ -59,10 +58,10 @@
   padding-top: 9px;
 }
 
-#main-content {
-  background: rgba(0, 0, 0, 0.8);
+.layout-main {
+  background: #000;
 }
 
 body {
-  background-color: #FFF;
+  background-color: #000;
 }

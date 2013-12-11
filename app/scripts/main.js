@@ -3,7 +3,7 @@ require([
     'application',
     'regionManager',
     'modules/navigation',
-    'modules/spotify',
+    //'modules/spotify',
     'modules/page',
     'modules/posts',
     'modules/router'

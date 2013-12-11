@@ -13,8 +13,7 @@
   margin: 0 0 2px 0;
   padding-left: 25px;
   transition: all 0.20s ease-in;
-  //text-transform: uppercase;
-  @include link-colors(#6D6D6D, #838383, #D3D3D3);
+  @include link-colors(#6D6D6D, #FFF, #D3D3D3);
 }
 
 //TODO Research SCSS hover states mixin
@@ -25,7 +24,7 @@
 }
 
 .active-nav {
-  background: #0F99E7;
+  background: #1D1D1D;
   font-weight: 600;
   color: #FFF;
 }
