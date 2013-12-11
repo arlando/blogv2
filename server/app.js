@@ -103,9 +103,7 @@ db.once('open', function callback () {
                 });
         });
     } else {
-        var controller = baucis.rest({
-            singular: 'post'
-        });
+           baucis.rest('post');
     }
 
     var app = express(express.logger());
