@@ -29,8 +29,9 @@ function( Backbone, Navigation ) {
         setCurrentPage: function() {
             //current link is the current page on load
             //TODO fix current link in the navigation
+            var currentKlass = Backbone.history.fragment.split('/');
             var currentlink = this.collection.find(function (navobj) {
-                return navobj.get('klass') === Backbone.history.fragment;
+                return navobj.get('klass') === currentKlass[0];
             });
             return ( currentlink ) ?
                 currentlink.set('active', true) :

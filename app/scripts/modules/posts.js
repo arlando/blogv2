@@ -36,6 +36,30 @@ function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) 
             }
         });
 
+        //this is for displaying a very particular posts in via the fragment
+        App.vent.on('show-posts-blog-post', function(id) {
+            if ( posts.length > 0 && postsLayout ) {
+                //direct hit ... noop
+          } else if ( posts.length > 0 && !postsLayout ) {
+                //loading from another page
+                App.page.show(postsLayout);
+            } else {
+                //not loaded at all
+                //fetch it and execute on a promise
+                var promise = posts.baucis();
+                promise.done(function() {
+                    //get the post from the app.vent
+                    var postFromId = posts.find(function(post) {
+                        return post.get('_id') === id;
+                    });
+                    postsView = new PostsPaginationView({collection: posts, model: postFromId || posts.at(0) });
+                    //make the first post the model for the view
+                    currentPost = new CurrentPost({model: postsView.model});
+                    App.page.show(postsLayout);
+                });
+            }
+        });
+
         //shows a single post
         App.vent.on('show-post', function(cid) {
             currentPost = new CurrentPost({model: posts.get(cid)});

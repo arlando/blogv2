@@ -17,8 +17,6 @@
 @-o-keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 @keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 
-
-
 .post-meta {
 }
 
@@ -51,7 +49,7 @@
 }
 
 .post-title:first-child {
-  padding-top: 16px;
+  padding-top: 15px;
 }
 
 .post-title-callout {

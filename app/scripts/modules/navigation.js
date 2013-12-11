@@ -9,11 +9,9 @@ function( Backbone, App, NavigationView, options ) {
         //this app manages the links on the homepage
         var links = new Backbone.Collection(options.links),
             navigationView;
-
         App.addRegions({
             navigation: options.layout
         });
-
         App.addInitializer( function() {
             navigationView = new NavigationView({collection : links});
             navigationView.setCurrentPage();

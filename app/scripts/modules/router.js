@@ -41,8 +41,11 @@ function( Backbone, App ) {
         blog: function() {
             App.vent.trigger('show-posts-blog');
         },
-        blogTrack: function(opt) {
+        blogTrack: function(id) {
             // fn must exist so ga can push it
+            App.vent.trigger('show-posts-blog-post', id);
+            //highlight the correct page
+            App.vent.trigger('navigation-highlight', 'blog');
         }
     };
     var router = new Router({
