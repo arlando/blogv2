@@ -97,13 +97,16 @@ db.once('open', function callback () {
         mongoose.model('post').create(posts, function (err) {
             if (err) throw err;
 
-                /* set Baucis */
-                var controller = baucis.rest({
-                    singular: 'post'
-                });
+
+        });
+        /* set Baucis */
+        baucis.rest({
+            singular: 'post'
         });
     } else {
-           baucis.rest('post');
+           baucis.rest({
+               singular: 'post'
+           });
     }
 
     var app = express(express.logger());
