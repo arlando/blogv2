@@ -132,7 +132,8 @@ db.once('open', function callback () {
                 }
             });
         };
-        app.use('/api/v1/posts', function(req, res, next) {
+        app.get('/api/v1/posts', function(req, res, next) {
+            req.query.model = 'post';
             getDocuments(req, res);
             next();
         });
