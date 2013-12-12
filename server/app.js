@@ -132,9 +132,19 @@ db.once('open', function callback () {
                 }
             });
         };
+        var getPosts = function(req, res) {
+            var Post = mongoose.model('post');
+            Post.find({}, function(err, models) {
+                if (err) {
+                    res.statusCode = 500;
+                    res.send('FUU');
+                } else {
+                    res.json(models);
+                }
+            });
+        };
         app.get('/api/v1/posts', function(req, res, next) {
-            req.query.model = 'post';
-            getDocuments(req, res);
+            getPosts(req, res);
             next();
         });
     }
