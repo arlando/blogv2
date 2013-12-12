@@ -111,15 +111,6 @@ db.once('open', function callback () {
     if (!prod) {
         app.use('/api/v1', baucis());
     } else {
-        var samplePost = new Post({
-            title: 'First Post',
-            callout: 'Just testing nothing to see here',
-            content: 'Just a sample',
-            tags: [{name:'awesome'}]
-        });
-        mongoose.model('post').create(samplePost, function (err) {
-            if (err) throw err;
-        });
         //on production mock an API
         var getDocuments = function(req, res) {
             var Model = mongoose.model(req.query.model);
