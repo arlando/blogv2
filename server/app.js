@@ -20,20 +20,21 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
+    //Register Schemas
     //Tests is a string is empty
-    function isEmptyString (string) {
+    var isEmptyString = function(string) {
         return string.length;
-    }
+    };
 
-    function lower (string) {
+    var lower = function(string) {
         return string.toLowerCase();
-    }
+    };
 
     //Tag a brief tag for a post
     var TagSchema = new mongoose.Schema({
-        name: { type: String, 
+        name: { type: String,
             set: lower,
-            trim: true , 
+            trim: true ,
             validate: [isEmptyString, 'tag must have a name']
         }
     });
@@ -69,12 +70,10 @@ db.once('open', function callback () {
         next();
     });
 
-
     //define models
-    var Tag = mongoose.model( 'tag', TagSchema );
-    var Post = mongoose.model( 'post',  PostSchema );
-    
-    //dummy data
+    var Tag = mongoose.model( 'tag', TagSchema, 'tags' );
+    var Post = mongoose.model( 'post',  PostSchema, 'posts' );
+
     if (!prod) {
         var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
             'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
@@ -86,8 +85,6 @@ db.once('open', function callback () {
                     tags: [{name: 'nodejs'}, {name: 'awesome'}]
                 });
             });
-
-        //TODO REMOVE CLEARING
         //clear of old posts
         mongoose.model('post').remove(function (err) {
             if (err) throw err;
@@ -104,7 +101,6 @@ db.once('open', function callback () {
             singular: 'post'
         });
     }
-    //Baucis on Prod is handled by an nginx reverse proxy
 
     var app = express(express.logger());
 
@@ -114,7 +110,27 @@ db.once('open', function callback () {
     });
 
     app.use(express.urlencoded());
-    app.use('/api/v1', baucis());
+    if (!prod) {
+        app.use('/api/v1', baucis());
+    } else {
+        //on production mock an API
+        var getDocuments = function(req, res) {
+            var Model = mongoose.model(req.query.model);
+            Model.find({}, function(err, models) {
+                console.log(models);
+                if (err) {
+                    res.status(500).send('Error');
+                } else {
+                    res.json(models);
+                }
+            });
+        };
+        app.use('/api/v1/posts', function(req, res, next) {
+            getDocuments(req, res);
+            next();
+        });
+    }
+
 
     //This is slow for production... lets use nginx instead for production
     //TODO MAKE THIS WORK FOR DEVELOPMENT and prod better ... less of hack
