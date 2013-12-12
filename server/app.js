@@ -136,7 +136,6 @@ db.once('open', function callback () {
             var Post = mongoose.model('post');
             Post.find({}, function(err, models) {
                 if (err) {
-                    res.statusCode = 500;
                     res.send('FUU');
                 } else {
                     res.json(models);
@@ -145,7 +144,6 @@ db.once('open', function callback () {
         };
         app.get('/api/v1/posts', function(req, res, next) {
             getPosts(req, res);
-            next();
         });
     }
 
