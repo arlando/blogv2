@@ -103,14 +103,8 @@ db.once('open', function callback () {
         baucis.rest({
             singular: 'post'
         });
-    } else {
-           baucis.rest({
-               singular: 'post',
-               del: false,
-               put: false,
-               post: false
-           });
     }
+    //Baucis on Prod is handled by an nginx reverse proxy
 
     var app = express(express.logger());
 
