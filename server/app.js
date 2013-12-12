@@ -124,9 +124,9 @@ db.once('open', function callback () {
         var getDocuments = function(req, res) {
             var Model = mongoose.model(req.query.model);
             Model.find({}, function(err, models) {
-                console.log(models);
                 if (err) {
-                    res.status(500).send('Error');
+                    res.statusCode = 500;
+                    res.send('FUU');
                 } else {
                     res.json(models);
                 }
