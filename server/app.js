@@ -161,7 +161,7 @@ db.once('open', function callback () {
     var io = socketIO.listen(server);
     //default message for clients
     var currentmessage = 'leave a message...',
-        maxMessageLength = 512;
+        maxMessageLength = 1024;
     io.sockets.on('connection', function(socket) {
 
         //get the current message on connect
