@@ -17,7 +17,7 @@ function( Backbone, HomeviewTmpl, socket ) {
         tagName: 'textarea',
         className: 'home-socket',
         attributes: {
-            'maxlength' : 512
+            'maxlength' : 1024
         },
         events: {
             'keyup' : 'updateHomeMessage'
