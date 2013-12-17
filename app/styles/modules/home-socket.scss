@@ -1,19 +1,24 @@
 .home-socket {
   background: none;
-  color: #FFF;
-  font-family: 'Josefin Sans';
-  font-weight: 100;
-  font-size: 72px;
-  text-shadow: 0 5px 8px #B4B4B4, 0 18px 11px #0E0E0E;
+  color: rgba(0, 0, 0, 0);
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 800;
+  letter-spacing: -5px;
+  font-size: 154px;
+  text-shadow: 0 -7px 28px #000000,
+                0 0 72px rgba(245, 245, 245, 0.77),
+                0 8px 61PX #FFFFFF,
+                0 12px 34px #070707;
   width: 70%;
   border: none;
   padding: 0;
-  line-height: 72px;
+  line-height: 150px;
   vertical-align: middle;
   text-align: center;
   margin: 0 auto;
   height: 100%;
   resize: none;
+  transition: all 5s;
 }
 
 .home-socket:focus {
@@ -22,4 +27,10 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+.home-socket:hover {
+  text-shadow: 0 -7px 28px #FFF,
+                0 0 72px rgba(39, 39, 39, 1),
+                0 8px 61PX #000,
+                0 12px 34px #070707;
 }
