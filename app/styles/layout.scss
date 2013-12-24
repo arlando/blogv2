@@ -31,6 +31,9 @@
 }
 
 .layout-current-post {
+  width: 600px;
+  overflow: scroll !important;
+  height: 100%;
   @include clearfix;
 }
 
