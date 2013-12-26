@@ -10,7 +10,8 @@ function( Backbone, App ) {
             'about': 'about',
             'artwork': 'artwork',
             'blog': 'blog',
-            'blog/:id': 'blogTrack'
+            'blog/:id': 'blogTrack',
+            'insert': 'insertPost'
         },
         initialize: function() {
             //track every page route in google analytics
@@ -46,6 +47,9 @@ function( Backbone, App ) {
             App.vent.trigger('show-posts-blog-post', id);
             //highlight the correct page
             App.vent.trigger('navigation-highlight', 'blog');
+        },
+        insertPost: function() {
+            App.vent.trigger('show-insert-post');
         }
     };
     var router = new Router({

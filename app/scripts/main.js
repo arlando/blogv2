@@ -6,6 +6,7 @@ require([
     //'modules/spotify',
     'modules/page',
     'modules/posts',
+    'modules/insertpost',
     'modules/router'
 ],
 function ( Backbone, App ) {

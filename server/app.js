@@ -28,6 +28,7 @@ db.once('open', function callback () {
     };
 
     var lower = function(string) {
+        console.log(arguments);
         return string.toLowerCase();
     };
 
@@ -110,37 +111,41 @@ db.once('open', function callback () {
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
     });
-
-    app.use(express.urlencoded());
-    if (!prod) {
-        app.use('/api/v1', baucis());
-    } else {
-        //on production mock an API
-        var getDocuments = function(req, res) {
-            var Model = mongoose.model(req.query.model);
-            Model.find({}, function(err, models) {
-                if (err) {
-                    res.statusCode = 500;
-                    res.send('FUU');
-                } else {
-                    res.json(models);
-                }
-            });
-        };
-        var getPosts = function(req, res) {
-            var Post = mongoose.model('post');
-            Post.find({}, function(err, models) {
-                if (err) {
-                    res.send('FUU');
-                } else {
-                    res.json(models);
-                }
-            });
-        };
-        app.get('/api/v1/posts', function(req, res, next) {
-            getPosts(req, res);
+    //TODO THIS SHOULD BE MUCH MORE MODULAR
+    //on production mock an API
+    var getDocuments = function(req, res) {
+        var Model = mongoose.model(req.query.model);
+        Model.find({}, function(err, models) {
+            if (err) {
+                res.statusCode = 500;
+                res.send('FUU');
+            } else {
+                res.json(models);
+            }
         });
-    }
+    };
+    var getPosts = function(req, res) {
+        var Post = mongoose.model('post');
+        Post.find({}, function(err, models) {
+            if (err) {
+                res.send('FUU');
+            } else {
+                res.json(models);
+            }
+        });
+    };
+    app.get('/api/v1/posts', function(req, res, next) {
+        getPosts(req, res);
+    });
+    app.post('/api/v1/insert', function(req, res) {
+        new Post({
+            title: req.title,
+            callout: req.callout,
+            markdown: req.markdown,
+            //TODO implement tagging function
+            tags: []
+        }).save();
+    });
 
 
     //This is slow for production... lets use nginx instead for production

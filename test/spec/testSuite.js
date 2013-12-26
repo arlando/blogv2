@@ -26,6 +26,7 @@ define(function() {
 		'spec/views/item/Track.js',
 		'spec/views/item/currentPost.js',
 		'spec/views/item/hibiscus.js',
+		'spec/views/item/insertPostView.js',
 		'spec/views/item/pageView.js',
 		'spec/views/layout/PostsLayout.js',
 		'spec/views/layout/SpotifyLayout.js'
