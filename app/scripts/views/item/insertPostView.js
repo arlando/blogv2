@@ -40,7 +40,6 @@ function( Backbone, InsertpostviewTmpl ) {
             this.model.url = 'api/v1/insert';
             this.model.save();
             this.model.url = oldurl;
-            debugger;
         }
     });
 

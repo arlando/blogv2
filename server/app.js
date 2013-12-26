@@ -36,25 +36,22 @@ db.once('open', function callback () {
     var TagSchema = new mongoose.Schema({
         name: { type: String,
             set: lower,
-            trim: true ,
-            validate: [isEmptyString, 'tag must have a name']
+            trim: true
         }
     });
+
 
     //Post input a post can have multiple tags
     var PostSchema = new mongoose.Schema({
         title: {
-            type: String,
-            validate: [isEmptyString, 'post title is required']
+            type: String
         },
         callout: {
-            type: String,
-            validate: [isEmptyString, 'callout is required']
+            type: String
         },
         tags: [Tag],
         markdown: {
-            type: String, trim: true,
-            validate: [isEmptyString, 'post must have content']
+            type: String
         },
         html: String,
         meta: {
@@ -63,6 +60,7 @@ db.once('open', function callback () {
         }
     });
 
+
     //Consider finding these via the tag ids but it turn into a O(n^2) situation
     PostSchema.statics.findSimilarPosts = function (cb) {
         return this.model('Post').where('tags').in(this.tags, cb);
@@ -70,6 +68,7 @@ db.once('open', function callback () {
 
     PostSchema.pre('save', function (next) {
         //convert the markdown to html and save it on the model
+        console.log('markdown', this.get('markdown'));
         this.set('html', markdown.toHTML(this.get('markdown')));
         console.log('a post was saved to mongo: %s', this.get('title'));
         next();
@@ -108,6 +107,7 @@ db.once('open', function callback () {
     var app = express(express.logger());
 
     app.configure(function(){
+        app.use(express.bodyParser());
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
     });
@@ -139,12 +139,20 @@ db.once('open', function callback () {
     });
     app.post('/api/v1/insert', function(req, res) {
         new Post({
-            title: req.title,
-            callout: req.callout,
-            markdown: req.markdown,
+            title: req.body.title,
+            callout: req.body.callout,
+            markdown: req.body.markdown,
             //TODO implement tagging function
             tags: []
-        }).save();
+        }).save(function(err) {
+                if (err) {
+                    //failures
+                    res.send(500);
+                } else {
+                    //saved it wahoo sent http 201
+                    res.send(201);
+                }
+            });
     });
 
 
