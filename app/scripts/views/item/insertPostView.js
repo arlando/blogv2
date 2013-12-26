@@ -38,7 +38,13 @@ function( Backbone, InsertpostviewTmpl ) {
             });
             oldurl = this.model.url;
             this.model.url = 'api/v1/insert';
-            this.model.save();
+            //use the real ultimate power of promises
+            this.model.save().done(function(model) {
+                    Backbone.history.navigate('#blog/' + model._id, {trigger:true});
+                })
+            .fail(function() {
+                    window.alert('Failed to add new post!');
+                });
             this.model.url = oldurl;
         }
     });

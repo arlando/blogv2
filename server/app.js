@@ -144,13 +144,15 @@ db.once('open', function callback () {
             markdown: req.body.markdown,
             //TODO implement tagging function
             tags: []
-        }).save(function(err) {
+        }).save(function(err, Post) {
                 if (err) {
                     //failures
                     res.send(500);
                 } else {
                     //saved it wahoo sent http 201
-                    res.send(201);
+                    res.status(201);
+                    //backbone needs this to throw the success cb
+                    res.json(Post);
                 }
             });
     });
