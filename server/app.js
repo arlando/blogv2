@@ -8,8 +8,12 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
-var markdown = require( "markdown" ).markdown;
+var markdown = require( "markdown").markdown;
+var bcrypt = require('bcrypt');
 var prod = false;
+var SALT_WORK_FACTOR = 10;
+var MAX_LOGIN_ATTEMPTS = 5;
+var LOCK_TIME = 2 * 60 * 60 * 1000;
 
 
 // start mongoose
@@ -60,7 +64,6 @@ db.once('open', function callback () {
         }
     });
 
-
     //Consider finding these via the tag ids but it turn into a O(n^2) situation
     PostSchema.statics.findSimilarPosts = function (cb) {
         return this.model('Post').where('tags').in(this.tags, cb);
@@ -74,9 +77,146 @@ db.once('open', function callback () {
         next();
     });
 
+    var UserSchema = new mongoose.Schema({
+        username: {
+            type: String,
+            required: true,
+            index: {
+                unique: true
+            }
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        loginAttempts: {
+            type: Number,
+            required: true,
+            default: 0
+        },
+        lockUntil: {
+            type: Number
+        }
+    });
+
+    UserSchema.virtual('isLocked').get( function() {
+       //check for a future lockUntil timestamp
+        return !!(this.lockUntil && this.lockUntil > Date.now());
+    });
+
+    //Definition for failed login attemps
+    var reasons = UserSchema.statics.failedLogin = {
+        NOT_FOUND: 0,
+        PASSWORD_INCORRECT: 1,
+        MAX_ATTEMPTS: 2
+    };
+
+    UserSchema.pre('save', function (next) {
+        var user = this;
+
+        //only hash if password is modified or is new
+        if (!user.isModified('password')) return next();
+
+        //generate a SALT
+        bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+            if (err) return next(err);
+
+            bcrypt.hash(user.password, salt, function(err, hash) {
+                if (err) return next(err);
+
+                user.password = hash;
+                next();
+            });
+        });
+    });
+
+    UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+        bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+            if (err) return cb(err);
+            cb(null, isMatch);
+        });
+    };
+
+    UserSchema.methods.incLoginAttempts = function(cb) {
+        //previous lock that has expired start at 1
+        if(this.lockUntil && this.lockUntil < Date.now()) {
+            return this.update({
+                $set: {
+                    loginAttempts: 1
+                },
+                $unset: {
+                    lockUntil: 1
+                }
+            }, cb);
+        }
+        //increment
+        var updates = {
+            $inc: {
+                loginAttempts: 1
+            }
+        };
+
+        if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked ) {
+            updates.$set = {
+                lockUntil: Date.now() + LOCK_TIME
+            };
+        }
+        return this.update(updates, cb);
+    };
+
+    UserSchema.statics.getAuthenticated = function(username, password, cb) {
+        this.findOne({username: username}, function(err, user) {
+            if (err) return cb(err);
+
+            //user exists?
+            if (!user) {
+                return cb(null, null, reasons.NOT_FOUND);
+            }
+
+            //check if account is currrently locked
+            if (user.isLocked) {
+                return user.incLoginAttempts(function(err) {
+                    if (err) return cb(err);
+                    return cb(null, null, reasons.MAX_ATTEMPTS);
+                });
+            }
+
+            //test for a matching password
+            user.comparePassword(password, function(err, isMatch) {
+                if (err) return cb(err);
+
+                //check if password is a match
+                if (isMatch) {
+                    //if there is no lock or failed attempts return the user
+                    if (!user.loginAttempts && !user.lockUntil) return cb(null, user);
+                    //reset attempts and lock info
+                    var updates = {
+                        $set: {
+                            loginAttempts: 0
+                        },
+                        $unset: {
+                            lockUntil: 1
+                        }
+                    };
+                    return user.update(updates, function(err) {
+                        if (err) return cb(err);
+                        return cb(null, user);
+                    });
+                }
+
+                //password is incorrect, must increment login attempts before responding
+                user.incLoginAttempts(function(err) {
+                    if (err) return cb(err);
+                    return cb(null, null, reasons.PASSWORD_INCORRECT);
+                });
+            });
+        });
+    };
+
     //define models
     var Tag = mongoose.model( 'tag', TagSchema, 'tags' );
     var Post = mongoose.model( 'post',  PostSchema, 'posts' );
+    var User = mongoose.model( 'user', UserSchema, 'users' );
 
     if (!prod) {
         var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
@@ -98,10 +238,13 @@ db.once('open', function callback () {
         mongoose.model('post').create(posts, function (err) {
             if (err) throw err;
         });
-        /* set Baucis */
-        baucis.rest({
-            singular: 'post'
+
+        var testUser = new User({
+            username: 'jmar777',
+            password: 'Password123'
         });
+        testUser.save();
+
     }
 
     var app = express(express.logger());
@@ -137,7 +280,19 @@ db.once('open', function callback () {
     app.get('/api/v1/posts', function(req, res, next) {
         getPosts(req, res);
     });
-    app.post('/api/v1/insert', function(req, res) {
+
+    //checks if a user has been authorized
+    var checkAuth = function(req, res, next) {
+        //TODO verify this is the correct value
+        if (!req.session.user_id) {
+            res.send('Please authorize');
+            res.redirect('/login');
+        } else {
+            next();
+        }
+    };
+
+    app.post('/api/v1/insert', checkAuth, function(req, res) {
         new Post({
             title: req.body.title,
             callout: req.body.callout,
@@ -157,6 +312,32 @@ db.once('open', function callback () {
             });
     });
 
+    //logs people in so they can use the site like a pro
+    app.post('/api/v1/login', function(req, res) {
+        User.getAuthenticated(req.body.username, req.body.password, function(err, user, reason) {
+            if (err) throw err;
+
+            //login was good
+            if (user) {
+                res.send(200);
+                return;
+            }
+            //failure
+            var reasons =  User.failedLogin;
+            switch (reason) {
+            case reasons.NOT_FOUND:
+            case reasons.PASSWORD_INCORRECT:
+                break;
+            case reasons.MAX_ATTEMPTS:
+                break;
+            }
+        });
+    });
+
+    app.post('/api/v1/logout', function(req, res) {
+        delete req.session.user_id;
+        res.redirect('/login');
+    });
 
     //This is slow for production... lets use nginx instead for production
     //TODO MAKE THIS WORK FOR DEVELOPMENT and prod better ... less of hack

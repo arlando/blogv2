@@ -7,6 +7,7 @@ require([
     'modules/page',
     'modules/posts',
     'modules/insertpost',
+    'modules/login',
     'modules/router'
 ],
 function ( Backbone, App ) {
