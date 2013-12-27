@@ -10,6 +10,7 @@ var socketIO = require('socket.io');
 var mongoose = require('mongoose');
 var markdown = require( "markdown").markdown;
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 var prod = false;
 var SALT_WORK_FACTOR = 10;
 var MAX_LOGIN_ATTEMPTS = 5;
@@ -250,9 +251,22 @@ db.once('open', function callback () {
     var app = express(express.logger());
 
     app.configure(function(){
+
         app.use(express.bodyParser());
+        app.use(express.cookieParser());
+        app.use(express.cookieSession({
+                secret: crypto.randomBytes(64).toString(),
+                key: 'arlandos-world',
+                cookie: {
+                    path: '/',
+                    maxAge: 3600000
+                }
+            })
+        );
+        app.use(express.session());
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
+
     });
     //TODO THIS SHOULD BE MUCH MORE MODULAR
     //on production mock an API
@@ -317,9 +331,10 @@ db.once('open', function callback () {
         User.getAuthenticated(req.body.username, req.body.password, function(err, user, reason) {
             if (err) throw err;
 
-            //login was good
+            //login was good set appropriate cookies
             if (user) {
                 res.send(200);
+                req.session.login_token = 'token';
                 return;
             }
             //failure
@@ -335,7 +350,7 @@ db.once('open', function callback () {
     });
 
     app.post('/api/v1/logout', function(req, res) {
-        delete req.session.user_id;
+        req.session = null;
         res.redirect('/login');
     });
 
