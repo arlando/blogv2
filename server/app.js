@@ -254,16 +254,19 @@ db.once('open', function callback () {
 
         app.use(express.bodyParser());
         app.use(express.cookieParser());
-        app.use(express.cookieSession({
-                secret: crypto.randomBytes(64).toString(),
-                key: 'arlandos-world',
-                cookie: {
-                    path: '/',
-                    maxAge: 3600000
-                }
-            })
-        );
-        app.use(express.session());
+//        app.use(express.cookieSession({
+//                //secret: crypto.randomBytes(64).toString(),
+//                secret: 'development',
+//                key: 'arlandos',
+//                cookie: {
+//                    path: '/',
+//                    maxAge: 3600000
+//                }
+//            })
+//        );
+        app.use(express.session({
+            secret: 'development'
+        }));
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
 
@@ -295,18 +298,21 @@ db.once('open', function callback () {
         getPosts(req, res);
     });
 
-    //checks if a user has been authorized
-    var checkAuth = function(req, res, next) {
-        //TODO verify this is the correct value
-        if (!req.session.user_id) {
-            res.send('Please authorize');
-            res.redirect('/login');
-        } else {
-            next();
+    function restrict(req, res, next) {
+        for ( var  x in req.session.cookie ) {
+            console.log(x);
         }
-    };
+        console.log('end session vars');
+        if (req.session.authed) {
+            next();
+        } else {
+            req.session.error = 'Access denied!';
+            console.log('failure to post the goods');
+            res.send(401);
+        }
+    }
 
-    app.post('/api/v1/insert', checkAuth, function(req, res) {
+    app.post('/api/v1/insert', restrict, function(req, res) {
         new Post({
             title: req.body.title,
             callout: req.body.callout,
@@ -334,7 +340,8 @@ db.once('open', function callback () {
             //login was good set appropriate cookies
             if (user) {
                 res.send(200);
-                req.session.login_token = 'token';
+                req.session.user = user;
+                req.session.authed = true;
                 return;
             }
             //failure

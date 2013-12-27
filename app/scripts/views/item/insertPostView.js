@@ -40,10 +40,10 @@ function( Backbone, InsertpostviewTmpl ) {
             this.model.url = 'api/v1/insert';
             //use the real ultimate power of promises
             this.model.save().done(function(model) {
-                    Backbone.history.navigate('#blog/' + model._id, {trigger:true});
+                    Backbone.history.navigate('#blog/' + model._id, {trigger: true});
                 })
             .fail(function() {
-                    window.alert('Failed to add new post!');
+                    Backbone.history.navigate('#login', {trigger: true});
                 });
             this.model.url = oldurl;
         }
