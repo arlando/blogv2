@@ -1,4 +1,21 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    markdown = require('markdown').markdown;
+
+// Post depends on the tag schema to exist
+var lower = function(string) {
+    'use strict';
+    return string.toLowerCase();
+};
+
+//Tag a brief tag for a post
+var TagSchema = new mongoose.Schema({
+    name: { type: String,
+        set: lower,
+        trim: true
+    }
+});
+
+var Tag = mongoose.model('Tag', TagSchema);
 
 //Post input a post can have multiple tags
 var PostSchema = new mongoose.Schema({
@@ -19,15 +36,19 @@ var PostSchema = new mongoose.Schema({
     }
 });
 
-//Consider finding these via the tag ids but it turn into a O(n^2) situation
+//Consider finding these via the tag ids but it could turn into a O(n^2) situation
 PostSchema.statics.findSimilarPosts = function (cb) {
-    return this.model('Post').where('tags').in(this.tags, cb);
+    'use strict';
+    return this.model('post').where('tags').in(this.tags, cb);
 };
 
+//before saving a post to the mongod convert the markdown to html
 PostSchema.pre('save', function (next) {
+    'use strict';
     //convert the markdown to html and save it on the model
-    console.log('markdown', this.get('markdown'));
+    console.log('saved... ', this.get('markdown'));
     this.set('html', markdown.toHTML(this.get('markdown')));
-    console.log('a post was saved to mongo: %s', this.get('title'));
     next();
 });
+
+mongoose.model('Post', PostSchema);

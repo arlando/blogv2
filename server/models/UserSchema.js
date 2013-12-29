@@ -1,5 +1,7 @@
-
-var SALT_WORK_FACTOR = 10,
+var mongoose = require('mongoose'),
+    bcrypt = require('bcrypt'),
+    crypto = require('crypto'),
+    SALT_WORK_FACTOR = 10,
     MAX_LOGIN_ATTEMPTS = 5,
     LOCK_TIME = 2 * 60 * 60 * 1000;
 
@@ -137,4 +139,10 @@ UserSchema.statics.getAuthenticated = function(username, password, cb) {
             });
         });
     });
+};
+
+
+module.exports = function() {
+    'use strict';
+    return mongoose.model('user', UserSchema, 'users');
 };

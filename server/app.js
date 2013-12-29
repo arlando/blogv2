@@ -6,220 +6,27 @@ var path = require('path');
 var async = require('async');
 var hbs = require('express-hbs');
 var mongoose = require('mongoose');
-var markdown = require( "markdown").markdown;
-var bcrypt = require('bcrypt');
-var crypto = require('crypto');
+var fs = require('fs');
+
 var prod = false;
-var SALT_WORK_FACTOR = 10;
-var MAX_LOGIN_ATTEMPTS = 5;
-var LOCK_TIME = 2 * 60 * 60 * 1000;
 
-//modules
-
+// Bootstrap models
+var models_path = __dirname + '/models';
+fs.readdirSync(models_path).forEach(function (file) {
+    if (~file.indexOf('.js')) require(models_path + '/' + file)
+});
 
 // start mongoose
 if (process.env.DATABASE_URL) {
    prod = true;
 }
-mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/post_database" );
+mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/post_database");
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
-    //Register Schemas
-    //Tests is a string is empty
-    var isEmptyString = function(string) {
-        return string.length;
-    };
-
-    var lower = function(string) {
-        console.log(arguments);
-        return string.toLowerCase();
-    };
-
-    //Tag a brief tag for a post
-    var TagSchema = new mongoose.Schema({
-        name: { type: String,
-            set: lower,
-            trim: true
-        }
-    });
-
-
-    //Post input a post can have multiple tags
-    var PostSchema = new mongoose.Schema({
-        title: {
-            type: String
-        },
-        callout: {
-            type: String
-        },
-        tags: [Tag],
-        markdown: {
-            type: String
-        },
-        html: String,
-        meta: {
-            created: { type: Date, default: Date.now },
-            likes: { type: Number, default: 0 }
-        }
-    });
-
-    //Consider finding these via the tag ids but it turn into a O(n^2) situation
-    PostSchema.statics.findSimilarPosts = function (cb) {
-        return this.model('Post').where('tags').in(this.tags, cb);
-    };
-
-    PostSchema.pre('save', function (next) {
-        //convert the markdown to html and save it on the model
-        console.log('markdown', this.get('markdown'));
-        this.set('html', markdown.toHTML(this.get('markdown')));
-        console.log('a post was saved to mongo: %s', this.get('title'));
-        next();
-    });
-
-    var UserSchema = new mongoose.Schema({
-        username: {
-            type: String,
-            required: true,
-            index: {
-                unique: true
-            }
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        loginAttempts: {
-            type: Number,
-            required: true,
-            default: 0
-        },
-        lockUntil: {
-            type: Number
-        }
-    });
-
-    UserSchema.virtual('isLocked').get( function() {
-       //check for a future lockUntil timestamp
-        return !!(this.lockUntil && this.lockUntil > Date.now());
-    });
-
-    //Definition for failed login attemps
-    var reasons = UserSchema.statics.failedLogin = {
-        NOT_FOUND: 0,
-        PASSWORD_INCORRECT: 1,
-        MAX_ATTEMPTS: 2
-    };
-
-    UserSchema.pre('save', function (next) {
-        var user = this;
-
-        //only hash if password is modified or is new
-        if (!user.isModified('password')) return next();
-
-        //generate a SALT
-        bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-            if (err) return next(err);
-
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if (err) return next(err);
-
-                user.password = hash;
-                next();
-            });
-        });
-    });
-
-    UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-        bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-            if (err) return cb(err);
-            cb(null, isMatch);
-        });
-    };
-
-    UserSchema.methods.incLoginAttempts = function(cb) {
-        //previous lock that has expired start at 1
-        if(this.lockUntil && this.lockUntil < Date.now()) {
-            return this.update({
-                $set: {
-                    loginAttempts: 1
-                },
-                $unset: {
-                    lockUntil: 1
-                }
-            }, cb);
-        }
-        //increment
-        var updates = {
-            $inc: {
-                loginAttempts: 1
-            }
-        };
-
-        if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked ) {
-            updates.$set = {
-                lockUntil: Date.now() + LOCK_TIME
-            };
-        }
-        return this.update(updates, cb);
-    };
-
-    UserSchema.statics.getAuthenticated = function(username, password, cb) {
-        this.findOne({username: username}, function(err, user) {
-            if (err) return cb(err);
-
-            //user exists?
-            if (!user) {
-                return cb(null, null, reasons.NOT_FOUND);
-            }
-
-            //check if account is currrently locked
-            if (user.isLocked) {
-                return user.incLoginAttempts(function(err) {
-                    if (err) return cb(err);
-                    return cb(null, null, reasons.MAX_ATTEMPTS);
-                });
-            }
-
-            //test for a matching password
-            user.comparePassword(password, function(err, isMatch) {
-                if (err) return cb(err);
-
-                //check if password is a match
-                if (isMatch) {
-                    //if there is no lock or failed attempts return the user
-                    if (!user.loginAttempts && !user.lockUntil) return cb(null, user);
-                    //reset attempts and lock info
-                    var updates = {
-                        $set: {
-                            loginAttempts: 0
-                        },
-                        $unset: {
-                            lockUntil: 1
-                        }
-                    };
-                    return user.update(updates, function(err) {
-                        if (err) return cb(err);
-                        return cb(null, user);
-                    });
-                }
-
-                //password is incorrect, must increment login attempts before responding
-                user.incLoginAttempts(function(err) {
-                    if (err) return cb(err);
-                    return cb(null, null, reasons.PASSWORD_INCORRECT);
-                });
-            });
-        });
-    };
-
-    //define models
-    var Tag = mongoose.model( 'tag', TagSchema, 'tags' );
-    var Post = mongoose.model( 'post',  PostSchema, 'posts' );
-    var User = mongoose.model( 'user', UserSchema, 'users' );
-
     if (!prod) {
+        var Post =  mongoose.model('Post');
         var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
             'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
         var posts = samplePosts.map(function (post) {
@@ -231,20 +38,21 @@ db.once('open', function callback () {
                 });
             });
         //clear of old posts
-        mongoose.model('post').remove(function (err) {
+        mongoose.model('Post').remove(function (err) {
             if (err) throw err;
         });
 
         //put new posts in
-        mongoose.model('post').create(posts, function (err) {
+        mongoose.model('Post').create(posts, function (err) {
             if (err) throw err;
         });
-
-        var testUser = new User({
-            username: 'jmar777',
-            password: 'Password123'
-        });
-        testUser.save();
+//
+//        var testUser = new User({
+//            username: 'jmar777',
+//            password: 'Password123'
+//        });
+//
+//        testUser.save();
 
     }
 
@@ -276,7 +84,7 @@ db.once('open', function callback () {
         });
     };
     var getPosts = function(req, res) {
-        var Post = mongoose.model('post');
+        var Post = mongoose.model('Post');
         Post.find({}, function(err, models) {
             if (err) {
                 res.send('FUU');
