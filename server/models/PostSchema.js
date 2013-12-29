@@ -46,7 +46,6 @@ PostSchema.statics.findSimilarPosts = function (cb) {
 PostSchema.pre('save', function (next) {
     'use strict';
     //convert the markdown to html and save it on the model
-    console.log('saved... ', this.get('markdown'));
     this.set('html', markdown.toHTML(this.get('markdown')));
     next();
 });

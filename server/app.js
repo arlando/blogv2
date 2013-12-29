@@ -13,7 +13,7 @@ var prod = false;
 // Bootstrap models
 var models_path = __dirname + '/models';
 fs.readdirSync(models_path).forEach(function (file) {
-    if (~file.indexOf('.js')) require(models_path + '/' + file)
+    if (~file.indexOf('.js')) require(models_path + '/' + file);
 });
 
 // start mongoose
@@ -26,7 +26,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
 
     if (!prod) {
-        var Post =  mongoose.model('Post');
+        var Post = mongoose.model('Post');
         var samplePosts = ['test1', 'test2', 'test3', 'mongo', 'express', 'kate jennings', 'fast food', 'adventures in cyberspace', 'old man',
             'kate sexton', 'kate beckinsale', 'kate katie', 'katy dad', 'i am ur katie' ];
         var posts = samplePosts.map(function (post) {
@@ -46,13 +46,14 @@ db.once('open', function callback () {
         mongoose.model('Post').create(posts, function (err) {
             if (err) throw err;
         });
-//
-//        var testUser = new User({
-//            username: 'jmar777',
-//            password: 'Password123'
-//        });
-//
-//        testUser.save();
+
+        var User = mongoose.model('User');
+        var testUser = new User({
+            username: 'jmar777',
+            password: 'Password123'
+        });
+
+        testUser.save();
 
     }
 
@@ -140,12 +141,15 @@ db.once('open', function callback () {
                 return;
             }
             //failure
-            var reasons =  User.failedLogin;
+            var reasons = User.failedLogin;
             switch (reason) {
             case reasons.NOT_FOUND:
             case reasons.PASSWORD_INCORRECT:
+                res.redirect('/');
                 break;
+
             case reasons.MAX_ATTEMPTS:
+                res.redirect('/');
                 break;
             }
         });

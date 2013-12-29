@@ -27,17 +27,70 @@ var UserSchema = new mongoose.Schema({
     }
 });
 
-UserSchema.virtual('isLocked').get( function() {
-    //check for a future lockUntil timestamp
-    return !!(this.lockUntil && this.lockUntil > Date.now());
-});
+UserSchema
+    .virtual('isLocked')
+    .get( function() {
+        //check for a future lockUntil timestamp
+        return !!(this.lockUntil && this.lockUntil > Date.now());
+    });
 
-//Definition for failed login attemps
-var reasons = UserSchema.statics.failedLogin = {
-    NOT_FOUND: 0,
-    PASSWORD_INCORRECT: 1,
-    MAX_ATTEMPTS: 2
-};
+//Definition for failed login attempts
+UserSchema.statics = {
+    failedLogin : {
+        NOT_FOUND: 0,
+        PASSWORD_INCORRECT: 1,
+        MAX_ATTEMPTS: 2
+    },
+    getAuthenticated : function(username, password, cb) {
+        var self =  this;
+        this.findOne({username: username}, function(err, user) {
+            if (err) return cb(err);
+
+            //user exists?
+            if (!user) {
+                return cb(null, null, self.failedLogin.NOT_FOUND);
+            }
+
+            //check if account is currrently locked
+            if (user.isLocked) {
+                return user.incLoginAttempts(function(err) {
+                    if (err) return cb(err);
+                    return cb(null, null, self.failedLogin.MAX_ATTEMPTS);
+                });
+            }
+
+            //test for a matching password
+            user.comparePassword(password, function(err, isMatch) {
+                if (err) return cb(err);
+
+                //check if password is a match
+                if (isMatch) {
+                    //if there is no lock or failed attempts return the user
+                    if (!user.loginAttempts && !user.lockUntil) return cb(null, user);
+                    //reset attempts and lock info
+                    var updates = {
+                        $set: {
+                            loginAttempts: 0
+                        },
+                        $unset: {
+                            lockUntil: 1
+                        }
+                    };
+                    return user.update(updates, function(err) {
+                        if (err) return cb(err);
+                        return cb(null, user);
+                    });
+                }
+
+                //password is incorrect, must increment login attempts before responding
+                user.incLoginAttempts(function(err) {
+                    if (err) return cb(err);
+                    return cb(null, null, self.failedLogin.PASSWORD_INCORRECT);
+                });
+            });
+        });
+    }
+}
 
 UserSchema.pre('save', function (next) {
     var user = this;
@@ -58,91 +111,39 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
-
-UserSchema.methods.incLoginAttempts = function(cb) {
-    //previous lock that has expired start at 1
-    if(this.lockUntil && this.lockUntil < Date.now()) {
-        return this.update({
-            $set: {
+UserSchema.methods = {
+    incLoginAttempts : function(cb) {
+        //previous lock that has expired start at 1
+        if(this.lockUntil && this.lockUntil < Date.now()) {
+            return this.update({
+                $set: {
+                    loginAttempts: 1
+                },
+                $unset: {
+                    lockUntil: 1
+                }
+            }, cb);
+        }
+        //increment
+        var updates = {
+            $inc: {
                 loginAttempts: 1
-            },
-            $unset: {
-                lockUntil: 1
             }
-        }, cb);
-    }
-    //increment
-    var updates = {
-        $inc: {
-            loginAttempts: 1
-        }
-    };
-
-    if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked ) {
-        updates.$set = {
-            lockUntil: Date.now() + LOCK_TIME
         };
-    }
-    return this.update(updates, cb);
-};
 
-UserSchema.statics.getAuthenticated = function(username, password, cb) {
-    this.findOne({username: username}, function(err, user) {
-        if (err) return cb(err);
-
-        //user exists?
-        if (!user) {
-            return cb(null, null, reasons.NOT_FOUND);
+        if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked ) {
+            updates.$set = {
+                lockUntil: Date.now() + LOCK_TIME
+            };
         }
-
-        //check if account is currrently locked
-        if (user.isLocked) {
-            return user.incLoginAttempts(function(err) {
-                if (err) return cb(err);
-                return cb(null, null, reasons.MAX_ATTEMPTS);
-            });
-        }
-
-        //test for a matching password
-        user.comparePassword(password, function(err, isMatch) {
+        return this.update(updates, cb);
+    },
+    comparePassword : function(candidatePassword, cb) {
+        bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
             if (err) return cb(err);
-
-            //check if password is a match
-            if (isMatch) {
-                //if there is no lock or failed attempts return the user
-                if (!user.loginAttempts && !user.lockUntil) return cb(null, user);
-                //reset attempts and lock info
-                var updates = {
-                    $set: {
-                        loginAttempts: 0
-                    },
-                    $unset: {
-                        lockUntil: 1
-                    }
-                };
-                return user.update(updates, function(err) {
-                    if (err) return cb(err);
-                    return cb(null, user);
-                });
-            }
-
-            //password is incorrect, must increment login attempts before responding
-            user.incLoginAttempts(function(err) {
-                if (err) return cb(err);
-                return cb(null, null, reasons.PASSWORD_INCORRECT);
-            });
+            cb(null, isMatch);
         });
-    });
+    }
 };
 
-
-module.exports = function() {
-    'use strict';
-    return mongoose.model('user', UserSchema, 'users');
-};
+mongoose.model('User', UserSchema);
