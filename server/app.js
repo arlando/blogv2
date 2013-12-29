@@ -5,8 +5,6 @@ var http = require('http');
 var path = require('path');
 var async = require('async');
 var hbs = require('express-hbs');
-var baucis = require('baucis');
-var socketIO = require('socket.io');
 var mongoose = require('mongoose');
 var markdown = require( "markdown").markdown;
 var bcrypt = require('bcrypt');
@@ -15,6 +13,8 @@ var prod = false;
 var SALT_WORK_FACTOR = 10;
 var MAX_LOGIN_ATTEMPTS = 5;
 var LOCK_TIME = 2 * 60 * 60 * 1000;
+
+//modules
 
 
 // start mongoose
@@ -253,17 +253,8 @@ db.once('open', function callback () {
     app.configure(function(){
 
         app.use(express.bodyParser());
+        //TODO need to use secret key
         app.use(express.cookieParser());
-//        app.use(express.cookieSession({
-//                //secret: crypto.randomBytes(64).toString(),
-//                secret: 'development',
-//                key: 'arlandos',
-//                cookie: {
-//                    path: '/',
-//                    maxAge: 3600000
-//                }
-//            })
-//        );
         app.use(express.session({
             secret: 'development'
         }));
@@ -278,7 +269,7 @@ db.once('open', function callback () {
         Model.find({}, function(err, models) {
             if (err) {
                 res.statusCode = 500;
-                res.send('FUU');
+                res.send('Unable to post!');
             } else {
                 res.json(models);
             }
@@ -298,16 +289,12 @@ db.once('open', function callback () {
         getPosts(req, res);
     });
 
+    //restrict only to authorized users
     function restrict(req, res, next) {
-        for ( var  x in req.session.cookie ) {
-            console.log(x);
-        }
-        console.log('end session vars');
         if (req.session.authed) {
             next();
         } else {
             req.session.error = 'Access denied!';
-            console.log('failure to post the goods');
             res.send(401);
         }
     }
@@ -372,7 +359,7 @@ db.once('open', function callback () {
 
     // route index.html
     app.get('/', function(req, res){
-      res.sendfile( path.join( __dirname, '../app/index.html' ) );
+        res.sendfile( path.join( __dirname, '../app/index.html' ) );
     });
 
     //start server
@@ -380,21 +367,5 @@ db.once('open', function callback () {
     var server = app.listen(port, '127.0.0.1');
 
     //socket.io
-    var io = socketIO.listen(server);
-    //default message for clients
-    var currentmessage = 'leave a message...',
-        maxMessageLength = 1024;
-    io.sockets.on('connection', function(socket) {
-
-        //get the current message on connect
-        socket.on('getmessage', function() {
-            socket.emit('updatemessage', currentmessage);
-        });
-
-        //when the client sends us a message
-        socket.on('sendmessage', function (message) {
-            currentmessage = (message.length < maxMessageLength ) ? message : currentmessage;
-            socket.broadcast.emit('updatemessage', currentmessage);
-        });
-    });
+    require('./socketio/HomeSocket')(server);
 });
