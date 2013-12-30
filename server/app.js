@@ -3,6 +3,7 @@ var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
     fs = require('fs'),
+    token = require('token'),
     prod = false;
 
 // Bootstrap models
@@ -15,6 +16,10 @@ fs.readdirSync(models_path).forEach(function (file) {
 if (process.env.DATABASE_URL) {
    prod = true;
 }
+
+token.defaults.secret = process.env.SECRET_TOKEN || 'DEV';
+token.defaults.timeStep = 24 * 60 * 60;
+
 mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost/post_database");
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -93,9 +98,14 @@ db.once('open', function callback () {
         getPosts(req, res);
     });
 
+    //checks if a token is valid
+    function isValidToken(json) {
+        return token.verify(json.userid + '|' + json.username, json.token);
+    }
+
     //restrict only to authorized users
     function restrict(req, res, next) {
-        if (req.session.authed) {
+        if (req.session.authed && isValidToken(req.body)) {
             next();
         } else {
             req.session.error = 'Access denied!';
@@ -130,7 +140,14 @@ db.once('open', function callback () {
 
             //login was good set appropriate cookies
             if (user) {
-                res.send(200);
+                res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                });
+                res.write(JSON.stringify({
+                    'id': user.id,
+                    'username': user.username,
+                    'token': token.generate(user.id + '|' + user.username)
+                }));
                 req.session.user = user;
                 req.session.authed = true;
                 res.end();

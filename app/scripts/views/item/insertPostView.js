@@ -38,6 +38,15 @@ function( Backbone, InsertpostviewTmpl ) {
             });
             oldurl = this.model.url;
             this.model.url = 'api/v1/insert';
+
+            //set authentication vars on the model
+            //this should be a global which takes in a backbone.model and adds these things to it
+            if (window.lando) {
+                this.model.set('userid', window.lando.userid);
+                this.model.set('username', window.lando.username);
+                this.model.set('token', window.lando.token);
+            }
+
             //use the real ultimate power of promises
             this.model.save().done(function(model) {
                     Backbone.history.navigate('#blog/' + model._id, {trigger: true});

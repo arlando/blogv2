@@ -20,7 +20,12 @@ function( Backbone, LoginviewTmpl  ) {
                     username: user,
                     password: pass
                 })
-                .done(function() {
+                .done(function(data) {
+                    //set for apitoken
+                    window.lando = {};
+                    window.lando.userid = data.id;
+                    window.lando.username = data.username;
+                    window.lando.token = data.token;
                     Backbone.history.navigate('/', {trigger:true});
                 })
                 .fail(function(){});
