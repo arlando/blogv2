@@ -31,8 +31,13 @@ var PostSchema = new mongoose.Schema({
     },
     html: String,
     meta: {
-        created: { type: Date, default: Date.now },
-        likes: { type: Number, default: 0 }
+        created: {
+            type: Date
+        },
+        likes: {
+            type: Number,
+            default: 0
+        }
     }
 });
 
@@ -47,6 +52,7 @@ PostSchema.pre('save', function (next) {
     'use strict';
     //convert the markdown to html and save it on the model
     this.set('html', markdown.toHTML(this.get('markdown')));
+    this.set('created', Date.now());
     next();
 });
 
