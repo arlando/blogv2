@@ -1,14 +1,9 @@
 'use strict';
-
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var async = require('async');
-var hbs = require('express-hbs');
-var mongoose = require('mongoose');
-var fs = require('fs');
-
-var prod = false;
+var express = require('express'),
+    path = require('path'),
+    mongoose = require('mongoose'),
+    fs = require('fs'),
+    prod = false;
 
 // Bootstrap models
 var models_path = __dirname + '/models';
@@ -138,6 +133,7 @@ db.once('open', function callback () {
                 res.send(200);
                 req.session.user = user;
                 req.session.authed = true;
+                res.end();
                 return;
             }
             //failure
@@ -145,11 +141,11 @@ db.once('open', function callback () {
             switch (reason) {
             case reasons.NOT_FOUND:
             case reasons.PASSWORD_INCORRECT:
-                res.redirect('/');
+                res.write({'error:':'Authentication Error'});
                 break;
 
             case reasons.MAX_ATTEMPTS:
-                res.redirect('/');
+                res.write({'error:':'Authentication Error'});
                 break;
             }
         });
