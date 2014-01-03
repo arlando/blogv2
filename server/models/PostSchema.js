@@ -15,8 +15,6 @@ var TagSchema = new mongoose.Schema({
     }
 });
 
-var Tag = mongoose.model('Tag', TagSchema);
-
 //Post input a post can have multiple tags
 var PostSchema = new mongoose.Schema({
     title: {
@@ -25,7 +23,7 @@ var PostSchema = new mongoose.Schema({
     callout: {
         type: String
     },
-    tags: [Tag],
+    tags: [TagSchema],
     markdown: {
         type: String
     },
