@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     markdown = require('markdown').markdown;
 
-// Post depends on the tag schema to exist
+// Post depends on the tag schema tos exist
 var lower = function(string) {
     'use strict';
     return string.toLowerCase();
@@ -9,10 +9,15 @@ var lower = function(string) {
 
 //Tag a brief tag for a post
 var TagSchema = new mongoose.Schema({
-    name: { type: String,
+    name: {
+        type: String,
         set: lower,
         trim: true
-    }
+    },
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
 });
 
 //Post input a post can have multiple tags
@@ -23,7 +28,10 @@ var PostSchema = new mongoose.Schema({
     callout: {
         type: String
     },
-    tags: [TagSchema],
+    tags: [{
+        type: String,
+        ref: 'Tag'
+    }],
     markdown: {
         type: String
     },
@@ -54,4 +62,17 @@ PostSchema.pre('save', function (next) {
     next();
 });
 
+//presaving tags
+//for each tag in list
+//if tag in list dne exist
+//make a new tag and add the object id to the tag
+//if tag does exist
+//add the object id to the tag
+
+//get posts related to tag
+//find post
+//then for each post in tag collection get it
+
+
+mongoose.model('Tag', TagSchema);
 mongoose.model('Post', PostSchema);
