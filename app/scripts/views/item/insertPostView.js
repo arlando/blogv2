@@ -37,7 +37,7 @@ function( Backbone, InsertpostviewTmpl ) {
                 self.model.set(input.name, input.value);
             });
             oldurl = this.model.url;
-            this.model.url = 'api/v1/insert';
+            this.model.url = 'api/v1/insert/post';
 
             //set authentication vars on the model
             //this should be a global which takes in a backbone.model and adds these things to it

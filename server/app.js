@@ -140,7 +140,7 @@ db.once('open', function callback () {
         }
     }
 
-    app.post('/api/v1/insert', restrict, function(req, res) {
+    app.post('/api/v1/insert/post', restrict, function(req, res) {
         new Post({
             title: req.body.title,
             callout: req.body.callout,
