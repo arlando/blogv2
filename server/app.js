@@ -29,12 +29,12 @@ db.once('open', function callback () {
         var Tag = mongoose.model('Tag'),
             nodeTag = new Tag(
                 {
-                    name: 'nodejs'
-                }),
+            name: 'nodejs'
+        }),
             awesomeTag = new Tag(
                 {
-                    name: 'awesome'
-                });
+            name: 'awesome'
+        });
 
 
         var Post = mongoose.model('Post');
@@ -51,11 +51,11 @@ db.once('open', function callback () {
 
         //set the id on the tag
         posts.forEach( function(post) {
-            //console.log(post);
-           nodeTag.posts.push(post._id);
-           awesomeTag.posts.push(post._id);
+            nodeTag.posts.push(post._id);
+            awesomeTag.posts.push(post._id);
         });
 
+        //save the tags once to the DB
         nodeTag.save();
         awesomeTag.save();
 
