@@ -11,6 +11,8 @@ var lower = function(string) {
 var TagSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
+        index: true,
         set: lower,
         trim: true
     },
@@ -62,6 +64,7 @@ PostSchema.pre('save', function (next) {
     next();
 });
 
+//TODO
 //presaving tags
 //for each tag in list
 //if tag in list dne exist
