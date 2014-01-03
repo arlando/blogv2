@@ -160,6 +160,38 @@ db.once('open', function callback () {
             });
     });
 
+
+    //TAGS
+    app.post('/api/v1/insert/tag', restrict, function(req, res) {
+        new Tag({
+            name: req.body.title
+        }).save(function(err, Tag) {
+            if (err) {
+                res.send(500);
+            } else {
+                res.status(201);
+                res.json(Tag);
+            }
+        });
+    });
+
+    //gets a list of tags
+    var getTags =  function(req, res) {
+        var Tags = mongoose.model('Tag');
+        Tags.find({}, function(err, models) {
+            if (err) {
+                res.send('FUU');
+            } else {
+                res.json(models);
+            }
+        });
+    };
+    app.get('/api/v1/tags', function(req, res, next) {
+        getTags(req, res);
+    });
+
+    //gets a list of tags
+
     //logs people in so they can use the site like a pro
     app.post('/api/v1/login', function(req, res) {
         User.getAuthenticated(req.body.username, req.body.password, function(err, user, reason) {
