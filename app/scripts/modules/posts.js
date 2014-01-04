@@ -7,7 +7,8 @@ define([
     'views/item/CurrentPost'
 ],
 function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) {
-    return App.module("posts", function() {
+    'use strict';
+    return App.module('posts', function() {
         var posts = new Posts(),
             postsView,
             postsLayout = new PostsLayout(),
@@ -40,7 +41,7 @@ function( Backbone, App, Posts, PostsPaginationView, PostsLayout, CurrentPost ) 
         App.vent.on('show-posts-blog-post', function(id) {
             if ( posts.length > 0 && postsLayout ) {
                 //direct hit ... noop
-          } else if ( posts.length > 0 && !postsLayout ) {
+            } else if ( posts.length > 0 && !postsLayout ) {
                 //loading from another page
                 App.page.show(postsLayout);
             } else {

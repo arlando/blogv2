@@ -5,6 +5,9 @@ function( Backbone ) {
     'use strict';
     return Backbone.Model.extend({
         url: '/api/v1/posts',
+        defaults : {
+            tags: []
+        },
         selected: false,
         //to get the CID for the template need to override jSON method
         toJSON: function() {

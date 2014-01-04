@@ -24,6 +24,10 @@ var UserSchema = new mongoose.Schema({
     },
     lockUntil: {
         type: Number
+    },
+    token: {
+        type: String,
+        expires: 50000
     }
 });
 

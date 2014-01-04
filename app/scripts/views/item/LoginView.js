@@ -1,8 +1,9 @@
 define([
     'backbone',
-    'hbs!tmpl/item/LoginView_tmpl'
+    'hbs!tmpl/item/LoginView_tmpl',
+    'application'
 ],
-function( Backbone, LoginviewTmpl  ) {
+function( Backbone, LoginviewTmpl, App ) {
     'use strict';
     return Backbone.Marionette.ItemView.extend({
         template: LoginviewTmpl,
@@ -15,20 +16,24 @@ function( Backbone, LoginviewTmpl  ) {
             }
             var user = $('.login-form-user').val(),
                 pass = $('.login-form-pass').val();
+
             $.post('api/v1/login',
                 {
                     username: user,
                     password: pass
                 })
-                .done(function(data) {
-                    //set for apitoken
-                    window.lando = {};
-                    window.lando.userid = data.id;
-                    window.lando.username = data.username;
-                    window.lando.token = data.token;
+                .success(function(data) {
+                    //variables set for token and authenticating future reqs
+                    console.log(data);
+                    App.session = {};
+                    App.session.token = data.token;
+                    App.session.username = data.username;
+                    App.session.userid = data.id;
                     Backbone.history.navigate('/', {trigger:true});
                 })
-                .fail(function(){});
+                .fail(function() {
+                    Backbone.history.navigate('/', {trigger:true});
+                });
         }
     });
 

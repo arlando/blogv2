@@ -77,7 +77,8 @@ db.once('open', function callback () {
         var User = mongoose.model('User');
         var testUser = new User({
             username: 'jmar777',
-            password: 'Password123'
+            password: 'Password123',
+            token: ''
         });
 
         testUser.save();
@@ -141,13 +142,25 @@ db.once('open', function callback () {
     }
 
     app.post('/api/v1/insert/post', restrict, function(req, res) {
-        new Post({
+        var post = new Post({
             title: req.body.title,
             callout: req.body.callout,
             markdown: req.body.markdown,
             //TODO implement tagging function
-            tags: []
-        }).save(function(err, Post) {
+            tags: req.body.tags
+        });
+
+        //if the post has tags update each of the tags to be related to
+        //the current post
+        //TODO look up saving multiple posts
+//        if (post.tags) {
+//            post.tags.forEach( function(tag) {
+//                tag.insertPost(post._id);
+//                tag.update();
+//            });
+//        }
+
+        post.save(function(err, Post) {
                 if (err) {
                     //failures
                     res.send(500);
@@ -199,14 +212,20 @@ db.once('open', function callback () {
 
             //login was good set appropriate cookies
             if (user) {
+                var generatedToken = token.generate(user.id + '|' + user.username);
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
                 res.write(JSON.stringify({
                     'id': user.id,
                     'username': user.username,
-                    'token': token.generate(user.id + '|' + user.username)
+                    'token': generatedToken
                 }));
+
+                //update the user token and save it to the mongod!
+                user.token = generatedToken;
+                user.save();
+
                 req.session.user = user;
                 req.session.authed = true;
                 res.end();
@@ -217,11 +236,11 @@ db.once('open', function callback () {
             switch (reason) {
             case reasons.NOT_FOUND:
             case reasons.PASSWORD_INCORRECT:
-                res.write({'error:':'Authentication Error'});
+                res.send(400);
                 break;
 
             case reasons.MAX_ATTEMPTS:
-                res.write({'error:':'Authentication Error'});
+                res.send(400);
                 break;
             }
         });

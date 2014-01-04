@@ -21,6 +21,13 @@ var TagSchema = new mongoose.Schema({
         ref: 'Post'
     }]
 });
+TagSchema.methods = {
+    insertPost : function(postObjectId){
+        'use strict';
+        var posts = this.get('posts');
+        posts.push(postObjectId);
+    }
+};
 
 //Post input a post can have multiple tags
 var PostSchema = new mongoose.Schema({
@@ -60,7 +67,7 @@ PostSchema.pre('save', function (next) {
     'use strict';
     //convert the markdown to html and save it on the model
     this.set('html', markdown.toHTML(this.get('markdown')));
-    this.set('created', Date.now());
+    this.set('meta.created', Date.now());
     next();
 });
 
@@ -72,7 +79,7 @@ PostSchema.pre('save', function (next) {
 //if tag does exist
 //add the object id to the tag
 
-//get posts related to tag
+//get posts related to a tag
 //find post
 //then for each post in tag collection get it
 
