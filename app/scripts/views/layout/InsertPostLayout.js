@@ -40,5 +40,4 @@ function( Backbone, InsertpostlayoutTmpl  ) {
             this.insertPost.currentView.removeTag(args.model.get('name'));
         }
     });
-
 });

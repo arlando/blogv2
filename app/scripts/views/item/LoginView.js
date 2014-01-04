@@ -35,5 +35,4 @@ function( Backbone, LoginviewTmpl, App ) {
                 });
         }
     });
-
 });
