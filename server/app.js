@@ -152,13 +152,17 @@ db.once('open', function callback () {
 
         //if the post has tags update each of the tags to be related to
         //the current post
-        //TODO look up saving multiple posts
-//        if (post.tags) {
-//            post.tags.forEach( function(tag) {
-//                tag.insertPost(post._id);
-//                tag.update();
-//            });
-//        }
+        //TODO look up saving concurrently multiple posts
+        if (post.tags) {
+            post.tags.forEach( function(tag) {
+                //find the tag in the mongod and add the new post!
+                Tag.findOneAndUpdate({name: tag}, {$push: {posts: post._id}}, function(err, doc) {
+                    if (err) {
+                        res.send('400');
+                    }
+                });
+            });
+        }
 
         post.save(function(err, Post) {
                 if (err) {

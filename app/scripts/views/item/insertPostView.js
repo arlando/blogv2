@@ -53,7 +53,6 @@ function( Backbone, InsertpostviewTmpl, App ) {
             }
 
             //use the real ultimate power of promises
-            debugger;
             this.model.save()
                 .success(function(model) {
                     //this.trigger('event:insert-save-tags');

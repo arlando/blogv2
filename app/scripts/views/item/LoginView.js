@@ -24,7 +24,6 @@ function( Backbone, LoginviewTmpl, App ) {
                 })
                 .success(function(data) {
                     //variables set for token and authenticating future reqs
-                    console.log(data);
                     App.session = {};
                     App.session.token = data.token;
                     App.session.username = data.username;
