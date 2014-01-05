@@ -4,6 +4,7 @@ define([
 function( Backbone ) {
     'use strict';
     return Backbone.Model.extend({
+        idAttribute: "_id",
         defaults: {
             name: ''
         },

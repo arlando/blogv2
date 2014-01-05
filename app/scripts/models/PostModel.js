@@ -8,6 +8,7 @@ function( Backbone ) {
         defaults : {
             tags: []
         },
+        idAttribute: "_id",
         selected: false,
         //to get the CID for the template need to override jSON method
         toJSON: function() {
