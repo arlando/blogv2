@@ -193,7 +193,7 @@ db.once('open', function callback () {
     });
 
     //gets a list of tags
-    var getTags =  function(req, res) {
+    var getTags = function(req, res) {
         var Tags = mongoose.model('Tag');
         Tags.find({}, function(err, models) {
             if (err) {
@@ -208,6 +208,44 @@ db.once('open', function callback () {
     });
 
     //gets a list of tags
+
+    //delete a tag
+    app.delete('/api/v1/delete/tag/:id', restrict, function(req, res) {
+        var Tag = mongoose.model('Tag'),
+            Post = mongoose.model('Post');
+        console.log('trying to delete');
+        Tag.findByIdAndRemove(req.body.id, function(err, doc) {
+                console.log('trying to delet2e');
+                if (err) {
+                    res.send(400);
+                } else {
+                    //remove the tag from each of the post
+                    var posts = doc.get('posts');
+                    posts.forEach( function (id) {
+                        Post.findByIdAndUpdate(id, {$pop: {tags: doc.get('name')}}, function(err, doc) {
+                            if (err) {
+                                res.send(400);
+                            }
+                        });
+                    });
+                    res.send(204);
+                }
+            }
+        );
+    });
+
+    app.post('/api/v1/edit/tag', restrict, function(req, res) {
+        var Tag = mongoose.model('Tag');
+        Tag.findByIdAndUpdate(req.body.id, {$set: {name: req.body.name}}, function(err, doc) {
+            if (err) {
+                res.send(400);
+            } else {
+                //return the edited doc
+                res.status(200);
+                res.json(doc);
+            }
+        });
+    });
 
     //logs people in so they can use the site like a pro
     app.post('/api/v1/login', function(req, res) {

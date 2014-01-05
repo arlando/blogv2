@@ -23,6 +23,9 @@ define([
             });
 
             App.vent.on('show-insert-post', function() {
+                if (!App.session) {
+                    Backbone.history.navigate('#login', {trigger: true});
+                } else
                 //already fetched tags and insertPost
                 if (tags.length > 0 && insertPostView) {
                     App.page.show(insertPostLayout);

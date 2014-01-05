@@ -28,7 +28,7 @@ function( Backbone, LoginviewTmpl, App ) {
                     App.session.token = data.token;
                     App.session.username = data.username;
                     App.session.userid = data.id;
-                    Backbone.history.navigate('/', {trigger:true});
+                    Backbone.history.navigate('#insert', {trigger:true});
                 })
                 .fail(function() {
                     Backbone.history.navigate('/', {trigger:true});
