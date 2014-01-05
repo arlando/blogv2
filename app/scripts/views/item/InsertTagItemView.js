@@ -29,14 +29,21 @@ function( Backbone, InserttagitemviewTmpl ) {
             return this;
         },
         destroyTag: function() {
-            var oldurl = this.model.url;
-            this.model.url = '/api/v1/delete/tag/' + this.model._id;
+            var oldurl = this.model.url,
+                self = this,
+                query;
+
+            this.model.url = '/api/v1/delete/tag/' + this.model.id;
+            //via HTTP REST spec delete requests are not supposed to have a body
+            //so we have to add the correct query to the uri
+            this.model.url += this.model.getQuery();
+            debugger;
             this.model.destroy({
                 success: function(){
 
                 },
                 error: function(){
-                    this.model.url = oldurl;
+                    self.model.url = oldurl;
                     console.log('deletion failed');
                 }
             });

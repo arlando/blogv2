@@ -127,13 +127,18 @@ db.once('open', function callback () {
     });
 
     //checks if a token is valid
-    function isValidToken(json) {
+    //TODO make a secret middle key
+    function isValidJSONToken(json) {
         return token.verify(json.userid + '|' + json.username, json.token);
+    }
+
+    function isValidQueryToken(query) {
+        return token.verify(query.userid + '|' + query.username, query.token);
     }
 
     //restrict only to authorized users
     function restrict(req, res, next) {
-        if (req.session.authed && isValidToken(req.body)) {
+        if (req.session.authed && (isValidJSONToken(req.body) || isValidQueryToken(req.query))) {
             next();
         } else {
             req.session.error = 'Access denied!';
@@ -214,7 +219,7 @@ db.once('open', function callback () {
         var Tag = mongoose.model('Tag'),
             Post = mongoose.model('Post');
         console.log('trying to delete');
-        Tag.findByIdAndRemove(req.body.id, function(err, doc) {
+        Tag.findByIdAndRemove(req.params.id, function(err, doc) {
                 console.log('trying to delet2e');
                 if (err) {
                     res.send(400);

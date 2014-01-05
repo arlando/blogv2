@@ -1,10 +1,10 @@
 define([
-    'backbone'
+    'backbone',
+    'models/AuthModel'
 ],
-function( Backbone ) {
+function( Backbone, AuthModel ) {
     'use strict';
-    return Backbone.Model.extend({
-        idAttribute: "_id",
+    return AuthModel.extend({
         defaults: {
             name: ''
         },

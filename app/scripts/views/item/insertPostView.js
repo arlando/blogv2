@@ -43,11 +43,7 @@ function( Backbone, InsertpostviewTmpl, App ) {
 
             //set authentication vars on the model
             //this should be a global which takes in a backbone.model and adds these things to it
-            if (App.session) {
-                this.model.set('userid', App.session.userid);
-                this.model.set('username', App.session.username);
-                this.model.set('token', App.session.token);
-            } else {
+            if (!App.session) {
                 this.model.url = oldurl;
                 Backbone.history.navigate('#login', {trigger: true});
             }

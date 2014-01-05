@@ -8,6 +8,7 @@ define(function() {
 		'spec/collections/Tracks.js',
 		'spec/controllers/appController.js',
 		'spec/exampleTest.js',
+		'spec/models/AuthModel.js',
 		'spec/models/PostModel.js',
 		'spec/models/TagModel.js',
 		'spec/models/Track.js',

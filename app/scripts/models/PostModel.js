@@ -1,14 +1,14 @@
 define([
-    'backbone'
+    'backbone',
+    'models/AuthModel'
 ],
-function( Backbone ) {
+function( Backbone, AuthModel ) {
     'use strict';
-    return Backbone.Model.extend({
+    return AuthModel.extend({
         url: '/api/v1/posts',
         defaults : {
             tags: []
         },
-        idAttribute: "_id",
         selected: false,
         //to get the CID for the template need to override jSON method
         toJSON: function() {
