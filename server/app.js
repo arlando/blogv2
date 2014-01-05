@@ -208,6 +208,7 @@ db.once('open', function callback () {
             }
         });
     };
+
     app.get('/api/v1/tags', function(req, res, next) {
         getTags(req, res);
     });
@@ -218,20 +219,23 @@ db.once('open', function callback () {
     app.delete('/api/v1/delete/tag/:id', restrict, function(req, res) {
         var Tag = mongoose.model('Tag'),
             Post = mongoose.model('Post');
-        console.log('trying to delete');
+
         Tag.findByIdAndRemove(req.params.id, function(err, doc) {
-                console.log('trying to delet2e');
                 if (err) {
                     res.send(400);
                 } else {
                     //remove the tag from each of the post
-                    var posts = doc.get('posts');
+                    var tagID = doc.get('_id');
+
+                    //toido try ould way again
                     posts.forEach( function (id) {
-                        Post.findByIdAndUpdate(id, {$pop: {tags: doc.get('name')}}, function(err, doc) {
-                            if (err) {
-                                res.send(400);
+                        Post.findByIdAndUpdate(
+                            id,
+                            {$pull: {'tags': tagID } },
+                            function(err, doc) {
+                                if (err) res.status(400);
                             }
-                        });
+                        );
                     });
                     res.send(204);
                 }
