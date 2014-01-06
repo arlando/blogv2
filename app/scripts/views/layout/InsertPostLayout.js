@@ -35,10 +35,10 @@ function( Backbone, InsertpostlayoutTmpl  ) {
         addTagToPost: function(args) {
             //tell the insert tag about the postModel, this postModel will have a
             //mongo id so we can now truly associate the tags with the mongo;
-            this.insertPost.currentView.addTag(args.model.get('name'));
+            this.insertPost.currentView.addTag(args.model.get('_id'));
         },
         removeTagFromPost: function(args) {
-            this.insertPost.currentView.removeTag(args.model.get('name'));
+            this.insertPost.currentView.removeTag(args.model.get('_id'));
         }
     });
 });

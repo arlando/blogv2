@@ -20,7 +20,6 @@ exports.create = function(req, res) {
         title: req.body.title,
         callout: req.body.callout,
         markdown: req.body.markdown,
-        //TODO implement tagging function
         tags: req.body.tags
     });
 
