@@ -29,7 +29,7 @@ exports.get = function(req, res) {
 };
 
 exports.delete = function(req, res) {
-    Tag.findByIdAndRemove(req.params.id, function(err, doc) {
+    Tag.findByIdAndRemove(req.tag.id, function(err, doc) {
             if (err) {
                 res.send(400);
             } else {
@@ -37,7 +37,7 @@ exports.delete = function(req, res) {
                 var tagID = doc.get('_id');
 
                 //toido try ould way again
-                posts.forEach( function (id) {
+                doc.get('posts').forEach( function (id) {
                     Post.findByIdAndUpdate(
                         id,
                         {$pull: {'tags': tagID } },
@@ -50,6 +50,19 @@ exports.delete = function(req, res) {
             }
         }
     );
+};
+
+exports.load = function(req, res, next, id) {
+    Tag.findById(id, function(err, doc) {
+        if (err) {
+            return next(err);
+        } else if (!doc) {
+            return next(new Error('Nothing found'));
+        } else {
+            req.tag = doc;
+            next();
+        }
+    });
 };
 
 exports.put = function(req, res) {

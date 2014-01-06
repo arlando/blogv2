@@ -95,7 +95,6 @@ db.once('open', function callback () {
         app.use(express.session({
             secret: 'development'
         }));
-        app.use(express.methodOverride());
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
     });

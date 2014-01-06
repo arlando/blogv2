@@ -40,7 +40,7 @@ function( Backbone, InserttagitemviewTmpl ) {
             var oldurl = this.model.url,
                 self = this;
 
-            this.model.url = '/api/v1/delete/tag/' + this.model.id;
+            this.model.url += this.model.id;
             //via HTTP REST spec delete requests are not supposed to have a body
             //so we have to add the correct query to the uri
             this.model.url += this.model.getQuery();
@@ -58,7 +58,7 @@ function( Backbone, InserttagitemviewTmpl ) {
             this.$el.toggleClass('editing');
         },
         onEditDoubleClick: function() {
-            this.ui.edit.val(this.ui.edit.val())
+            this.ui.edit.val(this.ui.edit.val());
             this.toggleEditingMode();
         },
         onEditKeyPress: function(event) {
