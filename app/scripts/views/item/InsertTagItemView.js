@@ -4,19 +4,27 @@ define([
 ],
 function( Backbone, InserttagitemviewTmpl ) {
     'use strict';
+    var ENTER_KEY = 13,
+        ESCAPE_KEY = 27;
 
     /* Return a ItemView class definition */
     return Backbone.Marionette.ItemView.extend({
         initialize: function() {
+            this.listenTo(this.model, 'change', this.render, this);
         },
         template: InserttagitemviewTmpl,
-        ui: {},
         tagName: 'li',
         className: 'insert-tag',
         isAdded: false,
+        ui: {
+            edit: '.edit-tag'
+        },
         events: {
             'click .add-tag': 'addTagToPost',
-            'click .destroy-tag': 'destroyTag'
+            'click .destroy-tag': 'destroyTag',
+            'dblclick label': 'onEditDoubleClick',
+            'keypress .edit-tag': 'onEditKeyPress',
+            'blur .edit-tag': 'onEditBlur'
         },
         onRender: function() {},
         addTagToPost: function() {
@@ -45,6 +53,32 @@ function( Backbone, InserttagitemviewTmpl ) {
                     console.log('deletion failed');
                 }
             });
+        },
+        toggleEditingMode: function() {
+            this.$el.toggleClass('editing');
+        },
+        onEditDoubleClick: function() {
+            this.ui.edit.val(this.ui.edit.val())
+            this.toggleEditingMode();
+        },
+        onEditKeyPress: function(event) {
+            if (event.which === ENTER_KEY) {
+                this.ui.edit.trigger('blur');
+            }
+            if (event.which === ESCAPE_KEY) {
+                this.toggleEditingMode();
+            }
+        },
+        onEditBlur: function(event) {
+            this.value = event.target.value.trim();
+            if (this.value) {
+                var oldurl = this.model.url;
+                this.model.url += this.model.get('_id');
+                this.model.set('name', this.value).save();
+                this.model.url = oldurl;
+            } else {
+                this.destroyTag();
+            }
         }
     });
 });

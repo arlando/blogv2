@@ -14,6 +14,7 @@ function( Backbone, InsertpostlayoutTmpl  ) {
         tagName: 'div',
         regions: {
             insertTag: '.layout-insert-tag',
+            addTag: '.layout-add-tag',
             insertPost: '.layout-insert-post'
         },
         /* ui selector cache */
