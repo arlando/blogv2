@@ -1,11 +1,13 @@
 define([
-    'backbone'
+    'backbone',
+    'models/AuthModel'
 ],
-function( Backbone ) {
+function( Backbone, AuthModel ) {
     'use strict';
-    return Backbone.Model.extend({
+    return AuthModel.extend({
+        url: '/api/v1/tags/',
         defaults: {
             name: ''
-        },
+        }
     });
 });

@@ -5,9 +5,8 @@ define([
 function( Backbone, InsertTagItemView ) {
     'use strict';
     return Backbone.Marionette.CollectionView.extend({
-        initialize: function() {
-        },
-        tagName: 'div',
+        initialize: function() {},
+        tagName: 'ul',
         className: 'insert-tags',
         itemView: InsertTagItemView,
         /* ui selector cache */

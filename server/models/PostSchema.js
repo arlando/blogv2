@@ -38,7 +38,7 @@ var PostSchema = new mongoose.Schema({
         type: String
     },
     tags: [{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag'
     }],
     markdown: {

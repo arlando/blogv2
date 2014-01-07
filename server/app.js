@@ -88,7 +88,7 @@ db.once('open', function callback () {
     var app = express(express.logger());
 
     app.configure(function(){
-
+        app.use(express.logger());
         app.use(express.bodyParser());
         //TODO need to use secret key
         app.use(express.cookieParser());
@@ -97,159 +97,9 @@ db.once('open', function callback () {
         }));
         app.set('view engine', 'handlebars');
         app.set('views', __dirname + '../app/scripts/views');
-
-    });
-    //TODO THIS SHOULD BE MUCH MORE MODULAR
-    //on production mock an API
-    var getDocuments = function(req, res) {
-        var Model = mongoose.model(req.query.model);
-        Model.find({}, function(err, models) {
-            if (err) {
-                res.statusCode = 500;
-                res.send('Unable to post!');
-            } else {
-                res.json(models);
-            }
-        });
-    };
-    var getPosts = function(req, res) {
-        var Post = mongoose.model('Post');
-        Post.find({}, function(err, models) {
-            if (err) {
-                res.send('FUU');
-            } else {
-                res.json(models);
-            }
-        });
-    };
-    app.get('/api/v1/posts', function(req, res, next) {
-        getPosts(req, res);
     });
 
-    //checks if a token is valid
-    function isValidToken(json) {
-        return token.verify(json.userid + '|' + json.username, json.token);
-    }
-
-    //restrict only to authorized users
-    function restrict(req, res, next) {
-        if (req.session.authed && isValidToken(req.body)) {
-            next();
-        } else {
-            req.session.error = 'Access denied!';
-            res.send(401);
-        }
-    }
-
-    app.post('/api/v1/insert/post', restrict, function(req, res) {
-        var post = new Post({
-            title: req.body.title,
-            callout: req.body.callout,
-            markdown: req.body.markdown,
-            //TODO implement tagging function
-            tags: req.body.tags
-        });
-
-        //if the post has tags update each of the tags to be related to
-        //the current post
-        //TODO look up saving multiple posts
-//        if (post.tags) {
-//            post.tags.forEach( function(tag) {
-//                tag.insertPost(post._id);
-//                tag.update();
-//            });
-//        }
-
-        post.save(function(err, Post) {
-                if (err) {
-                    //failures
-                    res.send(500);
-                } else {
-                    //saved it wahoo sent http 201
-                    res.status(201);
-                    //backbone needs this to throw the success cb
-                    res.json(Post);
-                }
-            });
-    });
-
-
-    //TAGS
-    app.post('/api/v1/insert/tag', restrict, function(req, res) {
-        new Tag({
-            name: req.body.title
-        }).save(function(err, Tag) {
-            if (err) {
-                res.send(500);
-            } else {
-                res.status(201);
-                res.json(Tag);
-            }
-        });
-    });
-
-    //gets a list of tags
-    var getTags =  function(req, res) {
-        var Tags = mongoose.model('Tag');
-        Tags.find({}, function(err, models) {
-            if (err) {
-                res.send('FUU');
-            } else {
-                res.json(models);
-            }
-        });
-    };
-    app.get('/api/v1/tags', function(req, res, next) {
-        getTags(req, res);
-    });
-
-    //gets a list of tags
-
-    //logs people in so they can use the site like a pro
-    app.post('/api/v1/login', function(req, res) {
-        User.getAuthenticated(req.body.username, req.body.password, function(err, user, reason) {
-            if (err) throw err;
-
-            //login was good set appropriate cookies
-            if (user) {
-                var generatedToken = token.generate(user.id + '|' + user.username);
-                res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                });
-                res.write(JSON.stringify({
-                    'id': user.id,
-                    'username': user.username,
-                    'token': generatedToken
-                }));
-
-                //update the user token and save it to the mongod!
-                user.token = generatedToken;
-                user.save();
-
-                req.session.user = user;
-                req.session.authed = true;
-                res.end();
-                return;
-            }
-            //failure
-            var reasons = User.failedLogin;
-            switch (reason) {
-            case reasons.NOT_FOUND:
-            case reasons.PASSWORD_INCORRECT:
-                res.send(400);
-                break;
-
-            case reasons.MAX_ATTEMPTS:
-                res.send(400);
-                break;
-            }
-        });
-    });
-
-    app.post('/api/v1/logout', function(req, res) {
-        req.session = null;
-        res.redirect('/login');
-    });
+    require('./config/routes')(app);
 
     //This is slow for production... lets use nginx instead for production
     //TODO MAKE THIS WORK FOR DEVELOPMENT and prod better ... less of hack
