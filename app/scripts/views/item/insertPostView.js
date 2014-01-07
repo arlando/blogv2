@@ -30,7 +30,7 @@ function( Backbone, InsertpostviewTmpl ) {
             if (e) {
                 e.preventDefault();
             }
-            debugger;
+
             var self = this,
                 unindexedArray = this.$el.find('.insert-post-form');
 
