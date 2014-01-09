@@ -7,6 +7,7 @@ require([
     'modules/page',
     'modules/posts',
     'modules/insertpost',
+    'modules/editpost',
     'modules/login',
     'modules/router'
 ],
