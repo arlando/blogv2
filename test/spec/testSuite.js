@@ -23,6 +23,7 @@ define(function() {
 		'spec/views/composite/NavigationView.js',
 		'spec/views/composite/PaginatedPosts.js',
 		'spec/views/item/AboutView.js',
+		'spec/views/item/EditPostItemView.js',
 		'spec/views/item/HomeView.js',
 		'spec/views/item/InsertTagHeaderItemView.js',
 		'spec/views/item/InsertTagItemView.js',

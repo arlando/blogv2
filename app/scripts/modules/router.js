@@ -12,6 +12,7 @@ function( Backbone, App ) {
             'blog': 'blog',
             'blog/:id': 'blogTrack',
             'insert': 'insertPost',
+            'edit/:id': 'editPost',
             'login': 'login'
         },
         initialize: function() {
@@ -51,6 +52,9 @@ function( Backbone, App ) {
         },
         insertPost: function() {
             App.vent.trigger('show-insert-post');
+        },
+        editPost: function(id) {
+            App.vent.trigger('show-edit-post', id);
         },
         login: function() {
             App.vent.trigger('show-login');

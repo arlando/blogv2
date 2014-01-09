@@ -5,13 +5,7 @@ define([
 function( Backbone, App ) {
     'use strict';
     return Backbone.Model.extend({
-        initialize: function() {
-            if (App.session) {
-                this.set('userid', App.session.userid);
-                this.set('username', App.session.username);
-                this.set('token', App.session.token);
-            }
-        },
+        initialize: function() {},
         idAttribute: '_id',
         //Used to generate a query token
         getQuery: function() {
@@ -28,6 +22,14 @@ function( Backbone, App ) {
                 return key + '=' + encodedValue;
             });
             return '&' + key + '=' + encodedValue;
+        },
+        session: function() {
+            if (App.session) {
+                this.set('userid', App.session.userid);
+                this.set('username', App.session.username);
+                this.set('token', App.session.token);
+            }
+            return this;
         }
     });
 });

@@ -24,11 +24,11 @@ function( Backbone, LoginviewTmpl, App ) {
                 })
                 .success(function(data) {
                     //variables set for token and authenticating future reqs
-                    App.session = {};
+                    App.session = App.session || {};
                     App.session.token = data.token;
                     App.session.username = data.username;
                     App.session.userid = data.id;
-                    Backbone.history.navigate('#insert', {trigger:true});
+                    Backbone.history.navigate(App.session.next, {trigger:true});
                 })
                 .fail(function() {
                     Backbone.history.navigate('/', {trigger:true});

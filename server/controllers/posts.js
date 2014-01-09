@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Tag = mongoose.model('Tag');
 
 exports.get = function(req, res) {
-    Post.find({}, function(err, models) {
+    Post.find({deleted:false}, function(err, models) {
         if (err) {
             console.log('posts get:', err)
             res.status(404);
@@ -49,4 +49,46 @@ exports.create = function(req, res) {
             res.json(Post);
         }
     });
+};
+
+//update a post
+exports.put = function(req, res) {
+    Post.findByIdAndUpdate(req.post.id,
+        {$set : {
+            markdown: req.body.markdown,
+            callout: req.body.callout,
+            title: req.body.title,
+            deleted: req.body.deleted
+        }},
+        function(err, doc) {
+            if (err) {
+                res.send(400);
+            } else {
+                res.status(200);
+                res.json(doc);
+            }
+        }
+    );
+};
+
+exports.load = function(req, res, next, id) {
+    Post.findById(id, function( err, doc) {
+        if (err) {
+            return next(err);
+        } else if (!doc) {
+            return next(err);
+        } else {
+            req.post = doc;
+            next();
+        }
+    });
+};
+
+exports.post = function(req, res) {
+    if (req.post) {
+        res.status(200);
+        res.json(req.post);
+    } else {
+        res.send(404);
+    }
 }

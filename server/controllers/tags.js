@@ -68,7 +68,6 @@ exports.load = function(req, res, next, id) {
 exports.put = function(req, res) {
     Tag.findByIdAndUpdate(req.tag.id, {$set: {name: req.body.name}}, function(err, doc) {
         if (err) {
-            console.log('put tag err ', err);
             res.send(400);
         } else {
             //return the edited doc

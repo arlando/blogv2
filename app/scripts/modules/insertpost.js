@@ -27,6 +27,8 @@ define([
 
             App.vent.on('show-insert-post', function() {
                 if (!App.session) {
+                    App.session = {};
+                    App.session.next = '#insert';
                     Backbone.history.navigate('#login', {trigger: true});
                 } else if (tags.length > 0 && insertPostView) {
                     //already fetched tags and insertPost
