@@ -17,7 +17,8 @@ function( Backbone, EditpostitemviewTmpl  ) {
         ui: {},
         /* Ui events hash */
         events: {
-            'click .edit-post-save': 'updatePost'
+            'click .edit-post-save': 'updatePost',
+            'click .edit-post-delete': 'deletePost'
         },
         /* on render callback */
         onRender: function() {},
@@ -33,9 +34,26 @@ function( Backbone, EditpostitemviewTmpl  ) {
             this.model.url += this.model.get('_id');
             this.model.session().save().success(function (data) {
                     console.log('saved: ', data);
+                    self.$el.append('updated!');
                 }
             );
             this.model.url = oldurl;
+        },
+        deletePost: function(e) {
+            var self = this;
+            if (e) {
+                e.preventDefault();
+            }
+            if (window.confirm('are you sure')) {
+                var del = this.model.get('deleted');
+                var oldurl = this.model.url;
+                this.model.url += this.model.get('_id');
+                this.model.set('deleted', !del );
+                this.model.session().save().success(function () {
+                    self.$el.append('deleted!');
+                });
+                this.model.url = oldurl;
+            }
         }
     });
 });

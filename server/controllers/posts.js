@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Tag = mongoose.model('Tag');
 
 exports.get = function(req, res) {
-    Post.find({}, function(err, models) {
+    Post.find({deleted:false}, function(err, models) {
         if (err) {
             console.log('posts get:', err)
             res.status(404);
@@ -57,7 +57,8 @@ exports.put = function(req, res) {
         {$set : {
             markdown: req.body.markdown,
             callout: req.body.callout,
-            title: req.body.title
+            title: req.body.title,
+            deleted: req.body.deleted
         }},
         function(err, doc) {
             if (err) {
