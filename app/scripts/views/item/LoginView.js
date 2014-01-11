@@ -19,7 +19,7 @@ function( Backbone, LoginviewTmpl, App ) {
             login['password'] = $('.login-form-pass').val();
 
             $.ajax({
-                url: 'api/v1/login',
+                url: 'http://arlando.net/api/v1/login',
                 type: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
