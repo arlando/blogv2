@@ -32,7 +32,7 @@ function( Backbone, EditpostitemviewTmpl  ) {
             });
             var oldurl = this.model.url;
             this.model.url += this.model.get('_id');
-            this.model.session().save().success(function (data) {
+            this.model.save().success(function (data) {
                     console.log('saved: ', data);
                     self.$el.append('updated!');
                 }
