@@ -14,14 +14,17 @@ function( Backbone, LoginviewTmpl, App ) {
             if (e) {
                 e.preventDefault();
             }
-            var user = $('.login-form-user').val(),
-                pass = $('.login-form-pass').val();
+            var login = {};
+            login['username'] = $('.login-form-user').val();
+            login['password'] = $('.login-form-pass').val();
 
-            $.post('api/v1/login',
-                {
-                    username: user,
-                    password: pass
-                })
+            $.ajax({
+                url: 'api/v1/login',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(login)
+            })
                 .success(function(data) {
                     //variables set for token and authenticating future reqs
                     App.session = App.session || {};
