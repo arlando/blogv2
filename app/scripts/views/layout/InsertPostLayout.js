@@ -4,10 +4,7 @@ define([
 ],
 function( Backbone, InsertpostlayoutTmpl  ) {
     'use strict';
-
-    /* Return a Layout class definition */
     return Backbone.Marionette.Layout.extend({
-        initialize: function() {},
         template: InsertpostlayoutTmpl,
         /* Layout sub regions */
         className: 'layout-insert',
@@ -17,11 +14,6 @@ function( Backbone, InsertpostlayoutTmpl  ) {
             addTag: '.layout-add-tag',
             insertPost: '.layout-insert-post'
         },
-        /* ui selector cache */
-        ui: {},
-        /* Ui events hash */
-        events: {},
-        /* on render callback */
         onRender: function() {
             //listen for the save call
             var self = this;
