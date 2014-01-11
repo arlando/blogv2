@@ -49,7 +49,7 @@ function( Backbone, EditpostitemviewTmpl  ) {
                 var oldurl = this.model.url;
                 this.model.url += this.model.get('_id');
                 this.model.set('deleted', !del );
-                this.model.session().save().success(function () {
+                this.model.save().success(function () {
                     self.$el.append('deleted!');
                 });
                 this.model.url = oldurl;

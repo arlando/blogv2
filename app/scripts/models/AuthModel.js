@@ -30,6 +30,14 @@ function( Backbone, App ) {
                 this.set('token', App.session.token);
             }
             return this;
+        },
+        sync: function(method, model, options) {
+            if (App.session) {
+                this.set('userid', App.session.userid);
+                this.set('username', App.session.username);
+                this.set('token', App.session.token);
+            }
+            return Backbone.sync.apply(this, [method, model, options]);
         }
     });
 });
