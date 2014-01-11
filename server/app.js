@@ -83,6 +83,16 @@ db.once('open', function callback () {
 
         testUser.save();
 
+    } else {
+        var User = mongoose.model('User');
+        User.remove(function (err) {
+            if (err) throw err;
+        });
+        new User({
+            username: process.env.USER,
+            password: process.env.PASS,
+            token: ''
+        }).save();
     }
 
     var app = express(express.logger());
