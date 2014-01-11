@@ -33,7 +33,7 @@ function( Backbone, PostslayoutTmpl  ) {
             this.posts.currentView.changeCurrentPost(args.model);
 
             //navigate to the current page... call route function so ga can track
-            Backbone.history.navigate( 'blog' + '/' + args.model.get('_id'), {trigger: true});
+            Backbone.history.navigate( 'blog' + '/' + args.model.get('urlslug'), {trigger: true});
         }
     });
 });

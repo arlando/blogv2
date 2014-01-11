@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
     Tag = mongoose.model('Tag'),
-    markdown = require('markdown').markdown;;
+    markdown = require('markdown').markdown,
+    slug = require('slug');
 
 exports.get = function(req, res) {
     Post.find({deleted:false}, function(err, models) {
@@ -54,14 +55,16 @@ exports.create = function(req, res) {
 
 //update a post
 exports.put = function(req, res) {
-    var newHTML = markdown.toHTML(req.body.markdown);
+    var newHTML = markdown.toHTML(req.body.markdown),
+        newSlug = slug(req.body.title);
     Post.findByIdAndUpdate(req.post.id,
         {$set : {
             markdown: req.body.markdown,
             callout: req.body.callout,
             title: req.body.title,
             deleted: req.body.deleted,
-            html: newHTML
+            html: newHTML,
+            slug: newSlug
         }},
         function(err, doc) {
             if (err) {
@@ -74,12 +77,24 @@ exports.put = function(req, res) {
     );
 };
 
+var findBySlug = function(req, res, next, id) {
+    Post.where({ slug:id }).findOne(function(err, doc){
+        if (err) {
+            return next(err);
+        } else {
+            req.post = doc;
+            next();
+        }
+    });
+};
+
 exports.load = function(req, res, next, id) {
     Post.findById(id, function( err, doc) {
         if (err) {
             return next(err);
         } else if (!doc) {
-            return next(err);
+            //try to find the post by its slug
+            return findBySlug(req, res, next, id);
         } else {
             req.post = doc;
             next();
@@ -94,4 +109,4 @@ exports.post = function(req, res) {
     } else {
         res.send(404);
     }
-}
+};

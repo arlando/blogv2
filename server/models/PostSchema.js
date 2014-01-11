@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-    markdown = require('markdown').markdown;
+    markdown = require('markdown').markdown,
+    slug = require ('slug');
 
 // Post depends on the tag schema tos exist
 var lower = function(string) {
@@ -21,6 +22,7 @@ var TagSchema = new mongoose.Schema({
         ref: 'Post'
     }]
 });
+
 TagSchema.methods = {
     insertPost : function(postObjectId){
         'use strict';
@@ -32,7 +34,8 @@ TagSchema.methods = {
 //Post input a post can have multiple tags
 var PostSchema = new mongoose.Schema({
     title: {
-        type: String
+        type: String,
+        unique: true
     },
     callout: {
         type: String
@@ -57,6 +60,10 @@ var PostSchema = new mongoose.Schema({
     deleted: {
         type: Boolean,
         default: false
+    },
+    urlslug: {
+        type: String,
+        unique: true
     }
 });
 
@@ -71,6 +78,7 @@ PostSchema.pre('save', function (next) {
     'use strict';
     //convert the markdown to html and save it on the model
     this.set('html', markdown.toHTML(this.get('markdown')));
+    this.set('urlslug', slug(this.get('title')));
     this.set('meta.created', Date.now());
     next();
 });
