@@ -30,6 +30,7 @@ define(function() {
 		'spec/views/item/InsertTagItemView.js',
 		'spec/views/item/LoginView.js',
 		'spec/views/item/NavigationView.js',
+		'spec/views/item/NewsletterView.js',
 		'spec/views/item/PostItemView.js',
 		'spec/views/item/PostsPaginated.js',
 		'spec/views/item/SpotifyPlayer.js',

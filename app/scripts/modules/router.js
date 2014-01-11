@@ -14,7 +14,8 @@ function( Backbone, App ) {
             'insert': 'insertPost',
             'edit/:id': 'editPost',
             'login': 'login',
-            'contact': 'contact'
+            'contact': 'contact',
+            'newsletter': 'newsletter'
         },
         initialize: function() {
             //track every page route in google analytics
@@ -62,6 +63,9 @@ function( Backbone, App ) {
         },
         contact: function() {
             App.vent.trigger('show-page-contact');
+        },
+        newsletter: function() {
+            App.vent.trigger('show-page-newsletter');
         }
     };
     var router = new Router({
