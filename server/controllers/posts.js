@@ -2,7 +2,8 @@
 
 var mongoose = require('mongoose'),
     Post = mongoose.model('Post'),
-    Tag = mongoose.model('Tag');
+    Tag = mongoose.model('Tag'),
+    markdown = require('markdown').markdown;;
 
 exports.get = function(req, res) {
     Post.find({deleted:false}, function(err, models) {
@@ -53,12 +54,14 @@ exports.create = function(req, res) {
 
 //update a post
 exports.put = function(req, res) {
+    var newHTML = markdown.toHTML(req.body.markdown);
     Post.findByIdAndUpdate(req.post.id,
         {$set : {
             markdown: req.body.markdown,
             callout: req.body.callout,
             title: req.body.title,
-            deleted: req.body.deleted
+            deleted: req.body.deleted,
+            html: newHTML
         }},
         function(err, doc) {
             if (err) {
