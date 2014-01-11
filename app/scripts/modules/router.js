@@ -13,7 +13,8 @@ function( Backbone, App ) {
             'blog/:id': 'blogTrack',
             'insert': 'insertPost',
             'edit/:id': 'editPost',
-            'login': 'login'
+            'login': 'login',
+            'contact': 'contact'
         },
         initialize: function() {
             //track every page route in google analytics
@@ -58,6 +59,9 @@ function( Backbone, App ) {
         },
         login: function() {
             App.vent.trigger('show-login');
+        },
+        contact: function() {
+            App.vent.trigger('show-page-contact');
         }
     };
     var router = new Router({

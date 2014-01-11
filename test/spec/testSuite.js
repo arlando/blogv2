@@ -23,6 +23,7 @@ define(function() {
 		'spec/views/composite/NavigationView.js',
 		'spec/views/composite/PaginatedPosts.js',
 		'spec/views/item/AboutView.js',
+		'spec/views/item/ContactView.js',
 		'spec/views/item/EditPostItemView.js',
 		'spec/views/item/HomeView.js',
 		'spec/views/item/InsertTagHeaderItemView.js',
@@ -37,6 +38,7 @@ define(function() {
 		'spec/views/item/hibiscus.js',
 		'spec/views/item/insertPostView.js',
 		'spec/views/item/pageView.js',
+		'spec/views/layout/EditPostLayout.js',
 		'spec/views/layout/InsertPostLayout.js',
 		'spec/views/layout/PostsLayout.js',
 		'spec/views/layout/SpotifyLayout.js'
