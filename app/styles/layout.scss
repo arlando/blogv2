@@ -1,6 +1,7 @@
 @import 'compass/utilities/general/float';
 @import 'compass/utilities/general/clearfix';
 @import 'mixins/_layout.scss';
+@import 'colors.scss';
 
 .layout-left {
   width: 250px;
@@ -9,7 +10,7 @@
   left: 0;
   @include clearfix;
   @include height;
-  background: #000;
+  background: $background;
 }
 
 .layout-main {
@@ -22,7 +23,7 @@
 }
 
 .layout {
-  color: white;
+  color: $gray;
   @include height;
 }
 
@@ -62,9 +63,9 @@
 }
 
 .layout-main {
-  background: #000;
+  background: $background;
 }
 
 body {
-  background-color: #000;
+  background-color: $background;
 }

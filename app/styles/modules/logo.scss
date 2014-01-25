@@ -1,6 +1,6 @@
 #logo {
   width: 100%;
-  color: #FFF;
+  color: $black;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 800;
   font-size: 22px;
@@ -11,6 +11,7 @@
   animation: bounce_logo 0.5s ease-in-out 0s 1 alternate;
   -webkit-transition: all 1s ease-in-out;
   transition: all 1s ease-in-out;
+  text-shadow: 0 1px 0 $white;
 }
 
 @-webkit-keyframes bounce_logo { from { margin-top:-50%; } to { margin-top:0; }  }

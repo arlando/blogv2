@@ -18,15 +18,17 @@
 @keyframes bounce_titles { from { margin-top:-50%; } to { margin-top:0; }  }
 
 .post-meta {
-}
-
-.post-created {
   float: left;
-  color: #FFF;
-  width: 100%;
+  color: $white;
   font-weight: 600;
   font-size: 12px;
-  padding: 10px 0 10px 10px;
+  margin: 10px;
+}
+
+.post-created, .post-follow {
+  border-radius: 5px;
+  padding: 5px;
+  background: $dteal;
 }
 
 .post-likes {
@@ -63,5 +65,5 @@
 .post-title:hover, .active-post {
   padding-left: 2px;
   margin: 0;
-  text-shadow: 0 0 1px #FFF;
+  text-shadow: 0 0 1px $dteal;
 }

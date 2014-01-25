@@ -98,7 +98,7 @@ db.once('open', function callback () {
     var app = express(express.logger());
 
     app.configure(function(){
-        app.use(express.logger());
+        //app.use(express.logger());
         app.use(express.bodyParser());
         //TODO need to use secret key
         app.use(express.cookieParser());
