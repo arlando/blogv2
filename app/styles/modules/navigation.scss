@@ -8,7 +8,7 @@ $bradius: 5px;
   @include no-bullets;
   padding: 0;
   margin: 18px;
-  border: 1px $mgray solid;
+  border: 1px $bordergray solid;
   border-radius: $bradius;
   background: $white;
 }

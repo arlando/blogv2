@@ -28,7 +28,14 @@
 .post-created, .post-follow {
   border-radius: 5px;
   padding: 5px;
+}
+
+.post-created {
   background: $dteal;
+}
+
+.post-follow {
+  background: $red;
 }
 
 .post-likes {
@@ -36,7 +43,6 @@
 }
 
 .post-content {
-  padding: 20px 0 0 35px;
   line-height: 25px;
 }
 
@@ -66,4 +72,11 @@
   padding-left: 2px;
   margin: 0;
   text-shadow: 0 0 1px $dteal;
+}
+
+.post {
+  background: $white;
+  border: 1px solid $bordergray;
+  margin: 25px 0 25px 0;
+  padding: 25px;
 }

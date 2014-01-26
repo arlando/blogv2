@@ -8,6 +8,7 @@ function( Backbone, CurrentpostTmpl  ) {
         initialize: function() {
              this.listenTo(this.model, 'change', this.render);
         },
+        className: 'post',
         template: CurrentpostTmpl,
         onBeforeRender: function() {
             if (!this.model.has('created')) {
